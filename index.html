@@ -51,6 +51,693 @@
                 <div class="login-option">
                     <h3>Login sebagai Guru</h3>
                     <form id="teacherLoginForm" class="elegant-form">
+                        <input type="email" placeholder="Email guru" required id="teacherEmailInput">
+                        <input type="password" placeholder="Password" required id="teacherPasswordInput">
+                        <button type="submit" class="elegant-btn">Login Guru</button>
+                    </form>
+                    <button class="elegant-btn secondary" onclick="showTeacherRegistration()">
+                        Daftar Akun Guru
+                    </button>
+                    <div class="demo-account">
+                        <p><strong>Akun Demo Guru:</strong></p>
+                        <p>Email: <code>guru@tjkt.sch.id</code></p>
+                        <p>Password: <code>guru123</code></p>
+                    </div>
+                </div>
+
+                <!-- Developer Login -->
+                <div class="login-option">
+                    <h3>Developer Access</h3>
+                    <button class="elegant-btn" onclick="showDeveloperLogin()">Developer Portal</button>
+                    <div class="demo-account">
+                        <p><strong>Developer Accounts:</strong></p>
+                        <p>• dev1 / dev123</p>
+                        <p>• dev2 / dev456</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <p>"Teknik Jaringan Komputer dan Telekomunikasi - Masa Depan Teknologi Digital"</p>
+                <span>© 2024 E-Learning TJKT - Semua Hak Dilindungi</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Login Modal -->
+    <div id="developerLoginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔐 Developer Login</h3>
+                <span class="close" onclick="closeDeveloperLogin()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="developerLoginForm" class="elegant-form">
+                    <input type="text" placeholder="Username Developer" required id="devUsername">
+                    <input type="password" placeholder="Password" required id="devPassword">
+                    <button type="submit" class="elegant-btn">Login Developer</button>
+                </form>
+                <div class="developer-accounts">
+                    <h4>Developer Accounts:</h4>
+                    <div class="account-list">
+                        <div class="account-item">
+                            <strong>Developer 1</strong>
+                            <span>Username: dev1</span>
+                            <span>Password: dev123</span>
+                        </div>
+                        <div class="account-item">
+                            <strong>Developer 2</strong>
+                            <span>Username: dev2</span>
+                            <span>Password: dev456</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Registration for Students -->
+    <div id="emailRegistration" class="page">
+        <div class="elegant-card">
+            <div class="card-header">
+                <h2>Daftar Akun Siswa</h2>
+                <div class="archon-icon">📧</div>
+            </div>
+            
+            <form id="emailRegForm" class="elegant-form">
+                <input type="text" placeholder="Nama Lengkap" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Konfirmasi Password" required>
+                
+                <div class="form-group">
+                    <label>Pilih Kelas:</label>
+                    <select id="classSelect" class="elegant-select" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="10_tjkt_1">X TJKT 1</option>
+                        <option value="10_tjkt_2">X TJKT 2</option>
+                        <option value="10_tjkt_3">X TJKT 3</option>
+                        <option value="11_tjkt_1">XI TJKT 1</option>
+                        <option value="11_tjkt_2">XI TJKT 2</option>
+                        <option value="12_tjkt_1">XII TJKT 1</option>
+                        <option value="12_tjkt_2">XII TJKT 2</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="elegant-btn">Daftar Sekarang</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Sudah punya akun? <a href="javascript:void(0)" onclick="showPage('loginPage')">Login di sini</a></p>
+            </div>
+            
+            <div class="card-footer">
+                <p>"Bergabunglah dengan komunitas pembelajar TJKT yang terus berkembang"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Registration -->
+    <div id="teacherRegistration" class="page">
+        <div class="elegant-card">
+            <div class="card-header">
+                <h2>Pendaftaran Akun Guru</h2>
+                <div class="archon-icon">👨‍🏫</div>
+            </div>
+            
+            <form id="teacherRegForm" class="elegant-form">
+                <input type="text" placeholder="Nama Lengkap" required>
+                <input type="email" placeholder="Email Sekolah" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Konfirmasi Password" required>
+                
+                <div class="form-group">
+                    <label>Jurusan yang Diajar:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="jurusan" value="tjkt"> TJKT</label>
+                        <label><input type="checkbox" name="jurusan" value="akuntansi"> Akuntansi</label>
+                        <label><input type="checkbox" name="jurusan" value="tkr"> TKR</label>
+                        <label><input type="checkbox" name="jurusan" value="tbsm"> TBSM</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="elegant-btn">Daftar Akun Guru</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Sudah punya akun guru? <a href="javascript:void(0)" onclick="showPage('loginPage')">Login di sini</a></p>
+            </div>
+            
+            <div class="card-footer">
+                <p>Akun akan aktif setelah disetujui administrator</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Setup -->
+    <div id="profileSetup" class="page">
+        <div class="elegant-card">
+            <div class="card-header">
+                <h2>Lengkapi Profil Anda</h2>
+                <div class="archon-icon">👤</div>
+            </div>
+            
+            <div class="profile-picture-section">
+                <div class="profile-picture-container">
+                    <img id="profilePreview" src="https://via.placeholder.com/150/667eea/ffffff?text=PP" alt="Profile Preview">
+                    <input type="file" id="profilePicture" accept="image/*" style="display: none;">
+                    <button class="elegant-btn secondary" onclick="document.getElementById('profilePicture').click()">
+                        Pilih Foto
+                    </button>
+                </div>
+            </div>
+            
+            <form id="profileSetupForm" class="elegant-form">
+                <textarea id="userBio" placeholder="Tulis bio singkat tentang diri Anda..." rows="3"></textarea>
+                
+                <div class="form-group">
+                    <label>Pilih Profesi/Minat Karir:</label>
+                    <select id="professionSelect" class="elegant-select">
+                        <option value="">Pilih Profesi</option>
+                        <option value="network_engineer">Network Engineer</option>
+                        <option value="security_analyst">Security Analyst</option>
+                        <option value="system_admin">System Administrator</option>
+                        <option value="cloud_engineer">Cloud Engineer</option>
+                        <option value="iot_developer">IoT Developer</option>
+                        <option value="network_technician">Network Technician</option>
+                        <option value="cybersecurity">Cybersecurity Specialist</option>
+                        <option value="data_center">Data Center Technician</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pilih Keahlian:</label>
+                    <div class="skills-grid">
+                        <label><input type="checkbox" name="skills" value="networking"> Jaringan Komputer</label>
+                        <label><input type="checkbox" name="skills" value="security"> Keamanan Jaringan</label>
+                        <label><input type="checkbox" name="skills" value="routing"> Routing & Switching</label>
+                        <label><input type="checkbox" name="skills" value="wireless"> Jaringan Nirkabel</label>
+                        <label><input type="checkbox" name="skills" value="fiber"> Fiber Optic</label>
+                        <label><input type="checkbox" name="skills" value="voip"> VoIP</label>
+                        <label><input type="checkbox" name="skills" value="cloud"> Cloud Computing</label>
+                        <label><input type="checkbox" name="skills" value="iot"> Internet of Things</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="elegant-btn">Simpan Profil</button>
+            </form>
+            
+            <div class="card-footer">
+                <p>"Profil yang lengkap membantu dalam proses pembelajaran dan pengembangan karir"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jurusan Selection -->
+    <div id="jurusanSelection" class="page">
+        <div class="elegant-card">
+            <div class="card-header">
+                <h2>Pilih Jurusan Anda</h2>
+                <div class="archon-icon">🎓</div>
+            </div>
+            
+            <p id="welcomeMessage" class="welcome-message">Halo, pilih jurusan untuk melanjutkan</p>
+            
+            <div class="jurusan-grid">
+                <div class="jurusan-card" onclick="selectJurusan('tjkt')">
+                    <div class="jurusan-icon">🌐</div>
+                    <h3>TJKT</h3>
+                    <p>Teknik Jaringan Komputer dan Telekomunikasi</p>
+                    <div class="checkbox"></div>
+                </div>
+                <div class="jurusan-card" onclick="selectJurusan('akuntansi')">
+                    <div class="jurusan-icon">📊</div>
+                    <h3>Akuntansi</h3>
+                    <p>Akuntansi dan Keuangan</p>
+                    <div class="checkbox"></div>
+                </div>
+                <div class="jurusan-card" onclick="selectJurusan('tkr')">
+                    <div class="jurusan-icon">🚗</div>
+                    <h3>TKR</h3>
+                    <p>Teknik Kendaraan Ringan</p>
+                    <div class="checkbox"></div>
+                </div>
+                <div class="jurusan-card" onclick="selectJurusan('tbsm')">
+                    <div class="jurusan-icon">🏍️</div>
+                    <h3>TBSM</h3>
+                    <p>Teknik Bisnis Sepeda Motor</p>
+                    <div class="checkbox"></div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <p>"Pilihan jurusan adalah langkah pertama menuju penguasaan keahlian di bidang teknologi"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="studentDashboard" class="page">
+        <!-- Student content remains the same as previous -->
+        <div class="dashboard-container">
+            <!-- Navigation Sidebar -->
+            <div class="nav-sidebar">
+                <div class="nav-header">
+                    <h3>📚 Menu TJKT</h3>
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" onclick="showSection('home')">
+                        🏠 Beranda
+                    </button>
+                    <button class="nav-btn" onclick="showSection('materials')">
+                        📖 Materi Harian
+                    </button>
+                    <button class="nav-btn" onclick="showSection('leaderboard')">
+                        🏆 Leaderboard
+                    </button>
+                    <button class="nav-btn" onclick="showSection('profile')">
+                        👤 Profil Saya
+                    </button>
+                </nav>
+                
+                <!-- AI Assistant Panel -->
+                <div class="ai-panel">
+                    <div class="panel-header">
+                        <h4>🤖 AI Assistant</h4>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            Halo! Saya AI Assistant siap membantu pembelajaran TJKT Anda.
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="aiInput" placeholder="Tanyakan tentang TJKT...">
+                        <button onclick="sendAIMessage()">➤</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Home Section -->
+                <div id="homeSection" class="content-section active">
+                    <div class="content-header">
+                        <div class="user-info">
+                            <img id="userAvatar" src="" alt="Avatar">
+                            <div class="user-details">
+                                <span id="userName"></span>
+                                <span class="class-badge" id="userClass"></span>
+                                <span class="jurusan-badge" id="userJurusan"></span>
+                            </div>
+                        </div>
+                        <div class="daily-progress">
+                            <span>Day <span id="currentDay">1</span></span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="dailyProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Card -->
+                    <div class="welcome-card">
+                        <h2>Selamat Datang di E-Learning TJKT! 🎉</h2>
+                        <p>Tingkatkan kemampuan jaringan komputer Anda dengan materi harian yang terstruktur.</p>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="materialsCompleted">0</span>
+                                <span class="stat-label">Materi Diselesaikan</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="averageScore">0%</span>
+                                <span class="stat-label">Rata-rata Nilai</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🔥</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="currentStreak">0</span>
+                                <span class="stat-label">Hari Beruntun</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="userRank">-</span>
+                                <span class="stat-label">Ranking</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Task -->
+                    <div class="today-task">
+                        <h3>📋 Aktivitas Hari Ini</h3>
+                        <div class="task-list">
+                            <div class="task-item" id="materialTask">
+                                <span>📖 Baca Materi Hari Ini</span>
+                                <span class="task-status" id="materialStatus">Belum</span>
+                            </div>
+                            <div class="task-item" id="quizTask">
+                                <span>📝 Kerjakan 25 Soal Quiz</span>
+                                <span class="task-status" id="quizStatus">Belum</span>
+                            </div>
+                            <div class="task-item" id="challengeTask">
+                                <span>💡 Selesaikan 5 Problem Solving</span>
+                                <span class="task-status" id="challengeStatus">Belum</span>
+                            </div>
+                        </div>
+                        <button class="elegant-btn" onclick="showSection('materials')">
+                            Mulai Belajar Hari Ini
+                        </button>
+                    </div>
+
+                    <!-- Class Leaderboard Preview -->
+                    <div class="leaderboard-preview">
+                        <h3>🏆 Top 5 Kelas <span id="previewClass"></span></h3>
+                        <div class="leaderboard-list" id="classLeaderboardPreview">
+                            <!-- Top 5 akan dimuat di sini -->
+                        </div>
+                        <button class="elegant-btn secondary" onclick="showSection('leaderboard')">
+                            Lihat Leaderboard Lengkap
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Materials, Leaderboard, Profile sections remain the same -->
+                <!-- ... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Dashboard -->
+    <div id="teacherDashboard" class="page">
+        <div class="dashboard-container">
+            <!-- Monitoring Panel -->
+            <div class="monitoring-panel">
+                <div class="panel-header">
+                    <h3>📊 Real-Time Monitoring</h3>
+                    <div class="live-indicator"></div>
+                </div>
+                <div class="monitoring-content">
+                    <div class="live-metrics">
+                        <div class="metric-card">
+                            <span class="metric-value" id="onlineStudents">0</span>
+                            <span class="metric-label">Siswa Online</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value" id="todaySubmissions">0</span>
+                            <span class="metric-label">Submission Hari Ini</span>
+                        </div>
+                    </div>
+                    <div class="activity-feed" id="teacherActivityFeed">
+                        <div class="activity-item">Sistem monitoring diaktifkan...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Teacher Content -->
+            <div class="main-content">
+                <div class="content-header">
+                    <div class="teacher-info">
+                        <h2>👨‍🏫 Teacher Dashboard</h2>
+                        <div class="teacher-details">
+                            <div id="teacherName">Guru TJKT</div>
+                            <div id="teacherEmail" style="font-size: 0.9em; color: #666;"></div>
+                            <div id="teacherJurusan" class="jurusan-badge"></div>
+                        </div>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="elegant-btn" onclick="generateReport()">📈 Generate Laporan</button>
+                        <button class="elegant-btn secondary" onclick="manageContent()">📚 Kelola Konten</button>
+                        <button class="elegant-btn secondary" onclick="showProfileEditor()">👤 Edit Profil</button>
+                        <button class="elegant-btn secondary" onclick="showPage('loginPage')">🚪 Logout</button>
+                    </div>
+                </div>
+
+                <!-- Student Progress Grid -->
+                <div class="students-grid" id="studentsGrid">
+                    <div class="loading">Memuat data siswa...</div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalStudents">0</span>
+                            <span class="stat-label">Total Siswa</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="avgProgress">0%</span>
+                            <span class="stat-label">Rata-rata Progress</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="activeToday">0</span>
+                            <span class="stat-label">Aktif Hari Ini</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💡</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="problemsSolved">0</span>
+                            <span class="stat-label">Problem Solved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developer Dashboard -->
+    <div id="developerDashboard" class="page">
+        <div class="dashboard-container">
+            <div class="nav-sidebar">
+                <div class="nav-header">
+                    <h3>🛠️ Developer Menu</h3>
+                    <div class="dev-info" id="devInfo">
+                        <span>Developer: <strong id="devUserName">-</strong></span>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" onclick="showDevSection('metrics')">
+                        📊 System Metrics
+                    </button>
+                    <button class="nav-btn" onclick="showDevSection('ai')">
+                        🤖 AI Analytics
+                    </button>
+                    <button class="nav-btn" onclick="showDevSection('users')">
+                        👥 User Management
+                    </button>
+                    <button class="nav-btn" onclick="showDevSection('database')">
+                        💾 Database
+                    </button>
+                    <button class="nav-btn" onclick="showPage('loginPage')">
+                        🚪 Logout
+                    </button>
+                </nav>
+            </div>
+
+            <div class="main-content">
+                <!-- System Metrics Section -->
+                <div id="devMetricsSection" class="content-section active">
+                    <div class="content-header">
+                        <h2>📊 System Metrics</h2>
+                        <button class="elegant-btn" onclick="refreshMetrics()">
+                            🔄 Refresh
+                        </button>
+                    </div>
+
+                    <div class="system-metrics">
+                        <div class="metric-grid">
+                            <div class="system-metric">
+                                <span class="metric-label">Active Users</span>
+                                <span class="metric-value" id="devActiveUsers">0</span>
+                            </div>
+                            <div class="system-metric">
+                                <span class="metric-label">Server Load</span>
+                                <span class="metric-value" id="devServerLoad">0%</span>
+                            </div>
+                            <div class="system-metric">
+                                <span class="metric-label">AI Interactions</span>
+                                <span class="metric-value" id="devAIInteractions">0</span>
+                            </div>
+                            <div class="system-metric">
+                                <span class="metric-label">Storage Usage</span>
+                                <span class="metric-value" id="devStorageUsage">0MB</span>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <h3>Quick Actions</h3>
+                            <div class="action-buttons">
+                                <button class="elegant-btn" onclick="showSystemMetrics()">
+                                    Detailed Metrics
+                                </button>
+                                <button class="elegant-btn secondary" onclick="clearCache()">
+                                    Clear Cache
+                                </button>
+                                <button class="elegant-btn secondary" onclick="exportData()">
+                                    Export Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Analytics Section -->
+                <div id="devAISection" class="content-section">
+                    <div class="content-header">
+                        <h2>🤖 AI Analytics</h2>
+                        <button class="elegant-btn" onclick="showAIAnalytics()">
+                            View Analytics
+                        </button>
+                    </div>
+                    <div class="ai-analytics">
+                        <div class="ai-stats">
+                            <div class="ai-stat">
+                                <span class="stat-value" id="totalConversations">0</span>
+                                <span class="stat-label">Total Conversations</span>
+                            </div>
+                            <div class="ai-stat">
+                                <span class="stat-value" id="avgResponseTime">0ms</span>
+                                <span class="stat-label">Avg Response Time</span>
+                            </div>
+                            <div class="ai-stat">
+                                <span class="stat-value" id="satisfactionRate">0%</span>
+                                <span class="stat-label">Satisfaction Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management Section -->
+                <div id="devUsersSection" class="content-section">
+                    <div class="content-header">
+                        <h2>👥 User Management</h2>
+                        <button class="elegant-btn" onclick="loadUsersSection()">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                    <div class="user-management">
+                        <div class="user-stats">
+                            <p>Total Registered Users: <strong id="totalUsers">0</strong></p>
+                            <p>Teachers: <strong id="totalTeachers">0</strong></p>
+                            <p>Students: <strong id="totalStudentsDev">0</strong></p>
+                        </div>
+                        <div class="users-list" id="usersList">
+                            <!-- Users list will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Section -->
+                <div id="devDatabaseSection" class="content-section">
+                    <div class="content-header">
+                        <h2>💾 Database Management</h2>
+                    </div>
+                    <div class="database-management">
+                        <div class="db-stats">
+                            <p>Local Storage Usage: <strong id="dbStorageUsage">0KB</strong></p>
+                            <p>Total Items: <strong id="dbTotalItems">0</strong></p>
+                        </div>
+                        <div class="db-actions">
+                            <button class="elegant-btn secondary" onclick="showDatabaseInfo()">
+                                Show Database Info
+                            </button>
+                            <button class="elegant-btn secondary" onclick="clearAllData()">
+                                Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Editor Modal -->
+    <div id="profileEditor" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profil</h3>
+                <span class="close" onclick="closeProfileEditor()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="profile-picture-edit">
+                    <img id="profileEditPreview" src="" alt="Profile Preview">
+                    <input type="file" id="profileEditPicture" accept="image/*" style="display: none;">
+                    <button class="elegant-btn secondary" onclick="document.getElementById('profileEditPicture').click()">
+                        Ubah Foto Profil
+                    </button>
+                </div>
+                
+                <form id="profileEditForm" class="elegant-form">
+                    <label>Bio:</label>
+                    <textarea id="profileEditBio" placeholder="Tulis bio singkat..." rows="3"></textarea>
+                    
+                    <label>Profesi:</label>
+                    <select id="profileEditProfession" class="elegant-select">
+                        <option value="">Pilih Profesi</option>
+                        <option value="network_engineer">Network Engineer</option>
+                        <option value="security_analyst">Security Analyst</option>
+                        <option value="system_admin">System Administrator</option>
+                        <option value="cloud_engineer">Cloud Engineer</option>
+                        <option value="iot_developer">IoT Developer</option>
+                        <option value="network_technician">Network Technician</option>
+                        <option value="cybersecurity">Cybersecurity Specialist</option>
+                        <option value="data_center">Data Center Technician</option>
+                    </select>
+                    
+                    <label>Keahlian:</label>
+                    <div class="skills-edit-grid">
+                        <label><input type="checkbox" name="edit_skills" value="networking"> Jaringan Komputer</label>
+                        <label><input type="checkbox" name="edit_skills" value="security"> Keamanan Jaringan</label>
+                        <label><input type="checkbox" name="edit_skills" value="routing"> Routing & Switching</label>
+                        <label><input type="checkbox" name="edit_skills" value="wireless"> Jaringan Nirkabel</label>
+                        <label><input type="checkbox" name="edit_skills" value="fiber"> Fiber Optic</label>
+                        <label><input type="checkbox" name="edit_skills" value="voip"> VoIP</label>
+                        <label><input type="checkbox" name="edit_skills" value="cloud"> Cloud Computing</label>
+                        <label><input type="checkbox" name="edit_skills" value="iot"> Internet of Things</label>
+                    </div>
+                    
+                    <button type="submit" class="elegant-btn">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+    </html>                                 data-shape="rectangular"
+                                 data-theme="outline"
+                                 data-text="signin_with"
+                                 data-size="large"
+                                 data-logo_alignment="left">
+                            </div>
+                        </div>
+                        <button class="elegant-btn secondary" onclick="showEmailRegistration()">
+                            Daftar dengan Email
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Teacher Login -->
+                <div class="login-option">
+                    <h3>Login sebagai Guru</h3>
+                    <form id="teacherLoginForm" class="elegant-form">
                         <input type="email" placeholder="Email guru" required>
                         <input type="password" placeholder="Password" required>
                         <button type="submit" class="elegant-btn">Login Guru</button>
