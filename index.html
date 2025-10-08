@@ -196,7 +196,92 @@
                         👤 Profil Saya
                     </button>
                 </nav>
-                
+
+                <!-- Teacher Dashboard -->
+<div id="teacherDashboard" class="page">
+    <div class="dashboard-container">
+        <!-- Monitoring Panel -->
+        <div class="monitoring-panel">
+            <div class="panel-header">
+                <h3>📊 Real-Time Monitoring</h3>
+                <div class="live-indicator"></div>
+            </div>
+            <div class="monitoring-content">
+                <div class="live-metrics">
+                    <div class="metric-card">
+                        <span class="metric-value" id="onlineStudents">0</span>
+                        <span class="metric-label">Siswa Online</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-value" id="todaySubmissions">0</span>
+                        <span class="metric-label">Submission Hari Ini</span>
+                    </div>
+                </div>
+                <div class="activity-feed" id="teacherActivityFeed">
+                    <div class="activity-item">Sistem monitoring diaktifkan...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Teacher Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <div class="teacher-info">
+                    <h2>Teacher Dashboard</h2>
+                    <div class="teacher-details">
+                        <div id="teacherName">Guru TJKT</div>
+                        <div id="teacherEmail" style="font-size: 0.9em; color: #666;"></div>
+                        <div id="teacherJurusan" class="jurusan-badge"></div>
+                    </div>
+                </div>
+                <div class="teacher-actions">
+                    <button class="elegant-btn" onclick="generateReport()">📈 Generate Laporan</button>
+                    <button class="elegant-btn secondary" onclick="manageContent()">📚 Kelola Konten</button>
+                    <button class="elegant-btn secondary" onclick="showProfileEditor()">👤 Edit Profil</button>
+                    <button class="elegant-btn secondary" onclick="showPage('loginPage')">🚪 Logout</button>
+                </div>
+            </div>
+
+            <!-- Student Progress Grid -->
+            <div class="students-grid" id="studentsGrid">
+                <div class="loading">Memuat data siswa...</div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="totalStudents">0</span>
+                        <span class="stat-label">Total Siswa</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="avgProgress">0%</span>
+                        <span class="stat-label">Rata-rata Progress</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="activeToday">0</span>
+                        <span class="stat-label">Aktif Hari Ini</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💡</div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="problemsSolved">0</span>
+                        <span class="stat-label">Problem Solved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+              
                 <!-- AI Assistant Panel -->
                 <div class="ai-panel">
                     <div class="panel-header">
