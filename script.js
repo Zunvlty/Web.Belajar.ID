@@ -1272,6 +1272,274 @@ function handleTeacherLogin(e) {
     // Redirect to teacher dashboard
 }
 
+// Teacher Registration Handler - PERBAIKAN
+function handleTeacherRegistration(e) {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.querySelector('input[type="text"]').value;
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+    const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
+    
+    // Validation
+    if (password !== confirmPassword) {
+        alert('Password dan konfirmasi password tidak cocok');
+        return;
+    }
+    
+    if (password.length < 6) {
+        alert('Password harus minimal 6 karakter');
+        return;
+    }
+    
+    // Get selected jurusan
+    const selectedJurusan = [];
+    form.querySelectorAll('input[name="jurusan"]:checked').forEach(checkbox => {
+        selectedJurusan.push(checkbox.value);
+    });
+    
+    if (selectedJurusan.length === 0) {
+        alert('Pilih minimal satu jurusan yang diajar');
+        return;
+    }
+    
+    // Save teacher registration
+    const teacherData = {
+        name: name,
+        email: email,
+        password: password, // In real app, hash this password
+        jurusan: selectedJurusan,
+        registeredAt: new Date().toISOString(),
+        status: 'pending',
+        role: 'teacher'
+    };
+    
+    localStorage.setItem(`teacher_${email}`, JSON.stringify(teacherData));
+    localStorage.setItem(`user_${email}`, JSON.stringify({
+        ...teacherData,
+        profileCompleted: true
+    }));
+    
+    alert('Pendaftaran akun guru berhasil! Menunggu persetujuan administrator.');
+    showPage('loginPage');
+    
+    // Reset form
+    form.reset();
+}
+
+// Teacher Login Handler - PERBAIKAN
+function handleTeacherLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+    
+    // Cek apakah akun guru ada
+    const teacherData = localStorage.getItem(`teacher_${email}`);
+    
+    if (!teacherData) {
+        alert('Akun guru tidak ditemukan. Silakan daftar terlebih dahulu.');
+        return;
+    }
+    
+    const teacher = JSON.parse(teacherData);
+    
+    // Verifikasi password
+    if (teacher.password === password) {
+        if (teacher.status === 'approved') {
+            // Login berhasil
+            userRole = 'teacher';
+            currentUser = {
+                id: 'teacher_' + email,
+                name: teacher.name,
+                email: email,
+                picture: 'https://via.placeholder.com/150/667eea/ffffff?text=T',
+                class: 'teacher'
+            };
+            
+            // Save user session
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Redirect to teacher dashboard
+            showTeacherDashboard();
+        } else {
+            alert('Akun guru menunggu persetujuan administrator.');
+        }
+    } else {
+        alert('Password salah. Silakan coba lagi.');
+    }
+}
+
+// Teacher Dashboard Functions - PERBAIKAN
+function showTeacherDashboard() {
+    showPage('teacherDashboard');
+    loadTeacherData();
+}
+
+function loadTeacherData() {
+    updateOnlineStudents();
+    startRealTimeMonitoring();
+    loadStudentsList();
+    loadTeacherProfile();
+}
+
+function loadTeacherProfile() {
+    if (currentUser) {
+        const teacherData = JSON.parse(localStorage.getItem(`teacher_${currentUser.email}`));
+        if (teacherData) {
+            document.getElementById('teacherName').textContent = teacherData.name;
+            document.getElementById('teacherEmail').textContent = teacherData.email;
+            document.getElementById('teacherJurusan').textContent = teacherData.jurusan.map(j => j.toUpperCase()).join(', ');
+        }
+    }
+}
+
+function updateOnlineStudents() {
+    // Simulate online students count
+    const onlineCount = Math.floor(Math.random() * 15) + 5;
+    const submissionCount = Math.floor(Math.random() * 10) + 2;
+    
+    document.getElementById('onlineStudents').textContent = onlineCount;
+    document.getElementById('todaySubmissions').textContent = submissionCount;
+}
+
+function startRealTimeMonitoring() {
+    // Update metrics every 5 seconds
+    setInterval(() => {
+        updateOnlineStudents();
+        addSampleActivity();
+    }, 5000);
+}
+
+function addSampleActivity() {
+    const activities = [
+        'Andi menyelesaikan materi jaringan komputer',
+        'Budi mengumpulkan kuis akuntansi - Nilai: 85%',
+        'Citra memulai tantangan problem solving',
+        'Dewi berinteraksi dengan AI assistant',
+        'Eka menyelesaikan kuis dengan nilai 90%',
+        'Fajar menyelesaikan semua aktivitas hari ini',
+        'Gita bertanya tentang konfigurasi router'
+    ];
+    
+    const activityFeed = document.getElementById('teacherActivityFeed');
+    const activity = document.createElement('div');
+    activity.className = 'activity-item';
+    activity.textContent = activities[Math.floor(Math.random() * activities.length)];
+    
+    activityFeed.insertBefore(activity, activityFeed.firstChild);
+    
+    // Keep only last 10 activities
+    if (activityFeed.children.length > 10) {
+        activityFeed.removeChild(activityFeed.lastChild);
+    }
+}
+
+function loadStudentsList() {
+    const studentsGrid = document.getElementById('studentsGrid');
+    
+    // Get all students from localStorage
+    const students = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('user_') && !key.includes('teacher')) {
+            try {
+                const userData = JSON.parse(localStorage.getItem(key));
+                if (userData.role !== 'teacher' && userData.class) {
+                    const progress = getStudentProgress(userData.email);
+                    students.push({
+                        name: userData.name,
+                        email: userData.email,
+                        class: userData.class,
+                        progress: progress.averageScore || 0,
+                        daysActive: progress.daysActive || 0
+                    });
+                }
+            } catch (e) {
+                console.log('Error parsing user data:', key);
+            }
+        }
+    }
+    
+    if (students.length === 0) {
+        // Sample data for demo
+        const sampleStudents = [
+            { name: 'Ahmad Wijaya', email: 'ahmad@school.com', class: '10_tjkt_1', progress: 85, daysActive: 8 },
+            { name: 'Siti Nurhaliza', email: 'siti@school.com', class: '10_tjkt_1', progress: 92, daysActive: 9 },
+            { name: 'Budi Santoso', email: 'budi@school.com', class: '10_tjkt_2', progress: 78, daysActive: 7 },
+            { name: 'Citra Dewi', email: 'citra@school.com', class: '10_tjkt_2', progress: 89, daysActive: 8 },
+            { name: 'Dodi Pratama', email: 'dodi@school.com', class: '10_tjkt_3', progress: 81, daysActive: 7 }
+        ];
+        
+        students.push(...sampleStudents);
+    }
+    
+    studentsGrid.innerHTML = students.map(student => `
+        <div class="student-item">
+            <img src="https://via.placeholder.com/50/667eea/ffffff?text=${student.name.charAt(0)}" alt="${student.name}">
+            <div style="flex: 1;">
+                <h4 style="margin: 0 0 5px 0;">${student.name}</h4>
+                <p style="margin: 0; color: #666; font-size: 0.85em;">${student.email}</p>
+                <p style="margin: 5px 0 0 0; color: #666; font-size: 0.8em;">
+                    Kelas: ${getClassDisplayName(student.class)} | 
+                    Hari Aktif: ${student.daysActive}
+                </p>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 1.2em; font-weight: bold; color: #667eea;">${student.progress}%</div>
+                <div style="font-size: 0.75em; color: #666;">Progress</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function generateReport() {
+    const students = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('user_') && !key.includes('teacher')) {
+            try {
+                const userData = JSON.parse(localStorage.getItem(key));
+                if (userData.role !== 'teacher' && userData.class) {
+                    const progress = getStudentProgress(userData.email);
+                    students.push({
+                        name: userData.name,
+                        class: userData.class,
+                        progress: progress.averageScore || 0,
+                        daysActive: progress.daysActive || 0,
+                        materialsCompleted: progress.materialsCompleted || 0
+                    });
+                }
+            } catch (e) {
+                continue;
+            }
+        }
+    }
+    
+    const report = {
+        title: 'Laporan Progress Siswa',
+        generatedAt: new Date().toLocaleDateString('id-ID'),
+        totalStudents: students.length,
+        averageProgress: students.reduce((sum, student) => sum + student.progress, 0) / students.length,
+        students: students
+    };
+    
+    alert(`Laporan berhasil digenerate!\n\nTotal Siswa: ${report.totalStudents}\nRata-rata Progress: ${Math.round(report.averageProgress)}%\n\nLaporan lengkap akan dikirim ke email.`);
+}
+
+function manageContent() {
+    alert('Membuka panel manajemen konten...\n\nFitur ini memungkinkan guru untuk:\n- Menambah/mengedit materi\n- Membuat soal quiz\n- Mengatur problem solving\n- Melihat statistik pembelajaran');
+}
+
+// Admin Approval System untuk Guru
+function approveTeacher(email) {
+    const teacherData = JSON.parse(localStorage.getItem(`teacher_${email}`));
+    if (teacherData) {
+        teacherData.status = 'approved';
+        localStorage.setItem(`teacher_${email}`, JSON.stringify(teacherData));
+        alert(`Akun guru ${teacherData.name} telah disetujui!`);
+    }
+}
 function developerLogin() {
     const password = prompt('Enter developer password:');
     if (password === 'dev123') {
