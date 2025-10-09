@@ -1063,3 +1063,99 @@ function generateAIResponse(message) {
 
 // Initialize demo accounts on first load
 createDemoAccounts();
+
+// Navigation System - PERBAIKAN
+function showSection(sectionId) {
+    console.log('Showing section:', sectionId); // Debug
+    
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Deactivate all nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show target section
+    const targetSection = document.getElementById(sectionId + 'Section');
+    if (targetSection) {
+        targetSection.classList.add('active');
+    } else {
+        console.error('Section not found:', sectionId + 'Section');
+        return;
+    }
+    
+    // Activate corresponding nav button
+    const navButton = document.querySelector(`.nav-btn[onclick="showSection('${sectionId}')"]`);
+    if (navButton) {
+        navButton.classList.add('active');
+    }
+    
+    // Load section-specific content
+    switch(sectionId) {
+        case 'home':
+            loadHomeSection();
+            break;
+        case 'materials':
+            loadMaterialsSection();
+            break;
+        case 'leaderboard':
+            loadLeaderboardSection();
+            break;
+        case 'profile':
+            loadProfileSection();
+            break;
+        default:
+            console.log('Unknown section:', sectionId);
+    }
+}
+
+// Developer Navigation - PERBAIKAN
+function showDevSection(sectionId) {
+    console.log('Showing dev section:', sectionId);
+    
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Deactivate all nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show target section
+    const targetSection = document.getElementById('dev' + capitalizeFirst(sectionId) + 'Section');
+    if (targetSection) {
+        targetSection.classList.add('active');
+    } else {
+        console.error('Dev section not found:', 'dev' + capitalizeFirst(sectionId) + 'Section');
+        return;
+    }
+    
+    // Activate corresponding nav button
+    const navButton = document.querySelector(`.nav-btn[onclick="showDevSection('${sectionId}')"]`);
+    if (navButton) {
+        navButton.classList.add('active');
+    }
+    
+    // Load section-specific content
+    switch(sectionId) {
+        case 'metrics':
+            loadMetricsSection();
+            break;
+        case 'users':
+            loadUsersSection();
+            break;
+        case 'ai':
+            loadAISection();
+            break;
+        case 'database':
+            loadDatabaseSection();
+            break;
+        default:
+            console.log('Unknown dev section:', sectionId);
+    }
+}
