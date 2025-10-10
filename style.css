@@ -128,26 +128,6 @@ body {
     font-size: 1.2em;
 }
 
-/* Demo Account Info */
-.demo-account {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    font-size: 0.85em;
-}
-
-.demo-account p {
-    margin: 5px 0;
-}
-
-.demo-account code {
-    background: rgba(0, 0, 0, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: monospace;
-}
-
 /* Google Login Container */
 .google-login-container {
     margin-bottom: 15px;
@@ -332,14 +312,6 @@ body {
     font-weight: 500;
 }
 
-.dev-info {
-    margin-top: 10px;
-    padding: 8px;
-    background: rgba(102, 126, 234, 0.1);
-    border-radius: 8px;
-    font-size: 0.85em;
-}
-
 .nav-menu {
     display: flex;
     flex-direction: column;
@@ -393,8 +365,7 @@ body {
     color: #333;
 }
 
-.online-indicator,
-.live-indicator {
+.online-indicator {
     width: 8px;
     height: 8px;
     background: #4CAF50;
@@ -529,18 +500,6 @@ body {
     border-radius: 12px;
     font-size: 0.75em;
     font-weight: 500;
-}
-
-.teacher-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.teacher-details {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
 }
 
 .profile-edit-btn {
@@ -949,270 +908,142 @@ body {
     color: #667eea;
 }
 
-/* Teacher Dashboard Styles */
-.monitoring-panel {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.monitoring-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.live-metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.metric-card {
+/* Profile Full View */
+.profile-full {
     background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profile-full-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #667eea;
+    object-fit: cover;
+}
+
+.profile-full-info h3 {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.profile-full-class {
+    background: #ff6b6b;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-right: 8px;
+}
+
+.profile-full-profession {
+    background: #667eea;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.profile-full-bio {
+    margin-top: 12px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.profile-stat {
+    background: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 12px;
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.metric-value {
+.stat-value {
     display: block;
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: bold;
     color: #667eea;
     margin-bottom: 5px;
 }
 
-.metric-label {
+.stat-label {
     font-size: 0.85em;
     color: #666;
 }
 
-.activity-feed {
-    max-height: 300px;
-    overflow-y: auto;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 12px;
-    padding: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.profile-skills-full {
+    margin-bottom: 30px;
 }
 
-.activity-item {
-    padding: 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    font-size: 0.9em;
-}
-
-.activity-item:last-child {
-    border-bottom: none;
-}
-
-.teacher-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.teacher-actions .elegant-btn {
-    width: auto;
-    min-width: 150px;
-}
-
-.students-grid {
-    display: grid;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.student-item {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.student-item:hover {
-    transform: translateY(-2px);
-}
-
-.student-item img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #667eea;
-    object-fit: cover;
-}
-
-/* Developer Dashboard Styles */
-.system-metrics {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.metric-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.system-metric {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 25px;
-    border-radius: 12px;
-    text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.system-metric:hover {
-    transform: translateY(-5px);
-}
-
-.system-metric .metric-value {
-    font-size: 2.5em;
-}
-
-.quick-actions {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.quick-actions h3 {
+.profile-skills-full h4 {
     margin-bottom: 15px;
     color: #333;
 }
 
-.action-buttons {
+.skills-tags {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 8px;
 }
 
-.action-buttons .elegant-btn {
-    width: auto;
-    min-width: 150px;
-}
-
-.ai-analytics {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 25px;
+.skill-tag {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    padding: 6px 12px;
     border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.85em;
+    font-weight: 500;
 }
 
-.ai-stats {
+.profile-achievements h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.achievements-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
 }
 
-.ai-stat {
+.achievement-item {
     background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 12px;
+    padding: 15px;
+    border-radius: 10px;
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.user-management {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 25px;
-    border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.achievement-icon {
+    font-size: 2em;
+    margin-bottom: 8px;
 }
 
-.user-stats {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-}
-
-.user-stats p {
-    margin: 8px 0;
-    font-size: 1.1em;
-}
-
-.users-list {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.user-item {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.database-management {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 25px;
-    border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.db-stats {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-}
-
-.db-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-/* Developer Accounts in Modal */
-.developer-accounts {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-}
-
-.developer-accounts h4 {
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.account-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.account-item {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.account-item strong {
-    display: block;
+.achievement-name {
+    font-weight: 500;
     margin-bottom: 5px;
-    color: #667eea;
 }
 
-.account-item span {
-    display: block;
-    font-size: 0.85em;
+.achievement-desc {
+    font-size: 0.8em;
     color: #666;
 }
 
@@ -1370,21 +1201,6 @@ body {
     .quick-stats {
         grid-template-columns: repeat(2, 1fr);
     }
-    
-    .teacher-actions,
-    .action-buttons,
-    .db-actions {
-        flex-direction: column;
-    }
-    
-    .teacher-actions .elegant-btn,
-    .action-buttons .elegant-btn {
-        width: 100%;
-    }
-    
-    .live-metrics {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1413,10 +1229,6 @@ body {
     .profile-stats {
         grid-template-columns: 1fr 1fr;
     }
-    
-    .metric-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* Scrollbar Styling */
@@ -1436,4 +1248,434 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #5a6fd8;
+}
+
+/* Developer Accounts Info */
+.dev-accounts-info {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-size: 0.85em;
+}
+
+.dev-accounts-info p {
+    margin: 5px 0;
+}
+
+/* Role Badges */
+.user-role-badge {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.role-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.user-class-badge {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+/* Logout Section */
+.logout-section {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+}
+
+/* Profile Actions */
+.profile-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-actions .elegant-btn {
+    width: auto;
+    padding: 10px 20px;
+}
+
+/* Profile Badges */
+.profile-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* Profile Interests */
+.profile-interests {
+    margin-bottom: 25px;
+}
+
+.profile-interests h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.interests-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.interest-tag {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+/* Teacher & Developer Stats */
+.teacher-stats,
+.system-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card.large {
+    padding: 25px;
+    text-align: center;
+}
+
+.stat-card.large .stat-icon {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.stat-card.large .stat-number {
+    font-size: 2em;
+    margin-bottom: 8px;
+}
+
+.stat-card.large .stat-label {
+    font-size: 0.9em;
+}
+
+/* Teacher & Developer Content Grid */
+.teacher-content-grid,
+.developer-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* Quick Actions Grid */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    padding: 20px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    border-color: #667eea;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.metric-item {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.metric-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.metric-value {
+    font-weight: bold;
+    color: #667eea;
+}
+
+.metric-bar {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.metric-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Class Progress */
+.class-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.class-progress-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+.class-name {
+    font-weight: 500;
+}
+
+.class-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* Students Management */
+.students-management {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.student-management-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+}
+
+.student-management-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.student-management-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.student-management-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.management-btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8em;
+}
+
+.management-btn.edit {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.management-btn.edit:hover {
+    background: #667eea;
+    color: white;
+}
+
+.management-btn.delete {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.management-btn.delete:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+/* Multiple Select Styling */
+.elegant-select[multiple] {
+    height: auto;
+    min-height: 100px;
+}
+
+.elegant-select[multiple] option {
+    padding: 8px 12px;
+    margin: 2px 0;
+    border-radius: 4px;
+}
+
+.elegant-select[multiple] option:checked {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+/* System Config */
+.system-config {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.config-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.config-item:last-child {
+    border-bottom: none;
+}
+
+.config-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.config-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.config-description {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Analytics Dashboard */
+.analytics-dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+.analytics-chart {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 25px;
+    min-height: 300px;
+}
+
+.analytics-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Responsive Design untuk Teacher & Developer */
+@media (max-width: 1024px) {
+    .teacher-content-grid,
+    .developer-content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .analytics-dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .teacher-stats,
+    .system-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-management-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .student-management-actions {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .teacher-stats,
+    .system-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .student-management-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
 }
