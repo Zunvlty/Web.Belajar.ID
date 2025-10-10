@@ -51,28 +51,27 @@
                 <div class="login-option">
                     <h3>Login sebagai Guru</h3>
                     <form id="teacherLoginForm" class="elegant-form">
-                        <input type="email" placeholder="Email guru" required id="teacherEmailInput">
-                        <input type="password" placeholder="Password" required id="teacherPasswordInput">
+                        <input type="email" id="teacherEmail" placeholder="Email guru" required>
+                        <input type="password" id="teacherPassword" placeholder="Password" required>
                         <button type="submit" class="elegant-btn">Login Guru</button>
                     </form>
                     <button class="elegant-btn secondary" onclick="showTeacherRegistration()">
                         Daftar Akun Guru
                     </button>
-                    <div class="demo-account">
-                        <p><strong>Akun Demo Guru:</strong></p>
-                        <p>Email: <code>guru@tjkt.sch.id</code></p>
-                        <p>Password: <code>guru123</code></p>
-                    </div>
                 </div>
 
                 <!-- Developer Login -->
                 <div class="login-option">
                     <h3>Developer Access</h3>
-                    <button class="elegant-btn" onclick="showDeveloperLogin()">Developer Portal</button>
-                    <div class="demo-account">
-                        <p><strong>Developer Accounts:</strong></p>
-                        <p>• dev1 / dev123</p>
-                        <p>• dev2 / dev456</p>
+                    <form id="developerLoginForm" class="elegant-form">
+                        <input type="text" id="devUsername" placeholder="Username Developer" required>
+                        <input type="password" id="devPassword" placeholder="Password" required>
+                        <button type="submit" class="elegant-btn">Login Developer</button>
+                    </form>
+                    <div class="dev-accounts-info">
+                        <p><strong>Akun Developer:</strong></p>
+                        <p>fatkul.dev / dev123</p>
+                        <p>reza.dev / dev456</p>
                     </div>
                 </div>
             </div>
@@ -80,38 +79,6 @@
             <div class="card-footer">
                 <p>"Teknik Jaringan Komputer dan Telekomunikasi - Masa Depan Teknologi Digital"</p>
                 <span>© 2024 E-Learning TJKT - Semua Hak Dilindungi</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Developer Login Modal -->
-    <div id="developerLoginModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🔐 Developer Login</h3>
-                <span class="close" onclick="closeDeveloperLogin()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="developerLoginForm" class="elegant-form">
-                    <input type="text" placeholder="Username Developer" required id="devUsername">
-                    <input type="password" placeholder="Password" required id="devPassword">
-                    <button type="submit" class="elegant-btn">Login Developer</button>
-                </form>
-                <div class="developer-accounts">
-                    <h4>Developer Accounts:</h4>
-                    <div class="account-list">
-                        <div class="account-item">
-                            <strong>Developer 1</strong>
-                            <span>Username: dev1</span>
-                            <span>Password: dev123</span>
-                        </div>
-                        <div class="account-item">
-                            <strong>Developer 2</strong>
-                            <span>Username: dev2</span>
-                            <span>Password: dev456</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -157,43 +124,6 @@
         </div>
     </div>
 
-    <!-- Teacher Registration -->
-    <div id="teacherRegistration" class="page">
-        <div class="elegant-card">
-            <div class="card-header">
-                <h2>Pendaftaran Akun Guru</h2>
-                <div class="archon-icon">👨‍🏫</div>
-            </div>
-            
-            <form id="teacherRegForm" class="elegant-form">
-                <input type="text" placeholder="Nama Lengkap" required>
-                <input type="email" placeholder="Email Sekolah" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Konfirmasi Password" required>
-                
-                <div class="form-group">
-                    <label>Jurusan yang Diajar:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="jurusan" value="tjkt"> TJKT</label>
-                        <label><input type="checkbox" name="jurusan" value="akuntansi"> Akuntansi</label>
-                        <label><input type="checkbox" name="jurusan" value="tkr"> TKR</label>
-                        <label><input type="checkbox" name="jurusan" value="tbsm"> TBSM</label>
-                    </div>
-                </div>
-                
-                <button type="submit" class="elegant-btn">Daftar Akun Guru</button>
-            </form>
-            
-            <div class="login-link">
-                <p>Sudah punya akun guru? <a href="javascript:void(0)" onclick="showPage('loginPage')">Login di sini</a></p>
-            </div>
-            
-            <div class="card-footer">
-                <p>Akun akan aktif setelah disetujui administrator</p>
-            </div>
-        </div>
-    </div>
-
     <!-- Profile Setup -->
     <div id="profileSetup" class="page">
         <div class="elegant-card">
@@ -229,6 +159,21 @@
                         <option value="data_center">Data Center Technician</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label>Bidang yang Diminati:</label>
+                    <select id="interestField" class="elegant-select" multiple>
+                        <option value="network_design">Desain Jaringan</option>
+                        <option value="network_security">Keamanan Jaringan</option>
+                        <option value="cloud_computing">Cloud Computing</option>
+                        <option value="iot">Internet of Things</option>
+                        <option value="cyber_security">Cyber Security</option>
+                        <option value="data_analysis">Analisis Data</option>
+                        <option value="web_development">Web Development</option>
+                        <option value="mobile_development">Mobile Development</option>
+                    </select>
+                    <small>Tekan Ctrl untuk memilih multiple bidang</small>
+                </div>
                 
                 <div class="form-group">
                     <label>Pilih Keahlian:</label>
@@ -253,57 +198,14 @@
         </div>
     </div>
 
-    <!-- Jurusan Selection -->
-    <div id="jurusanSelection" class="page">
-        <div class="elegant-card">
-            <div class="card-header">
-                <h2>Pilih Jurusan Anda</h2>
-                <div class="archon-icon">🎓</div>
-            </div>
-            
-            <p id="welcomeMessage" class="welcome-message">Halo, pilih jurusan untuk melanjutkan</p>
-            
-            <div class="jurusan-grid">
-                <div class="jurusan-card" onclick="selectJurusan('tjkt')">
-                    <div class="jurusan-icon">🌐</div>
-                    <h3>TJKT</h3>
-                    <p>Teknik Jaringan Komputer dan Telekomunikasi</p>
-                    <div class="checkbox"></div>
-                </div>
-                <div class="jurusan-card" onclick="selectJurusan('akuntansi')">
-                    <div class="jurusan-icon">📊</div>
-                    <h3>Akuntansi</h3>
-                    <p>Akuntansi dan Keuangan</p>
-                    <div class="checkbox"></div>
-                </div>
-                <div class="jurusan-card" onclick="selectJurusan('tkr')">
-                    <div class="jurusan-icon">🚗</div>
-                    <h3>TKR</h3>
-                    <p>Teknik Kendaraan Ringan</p>
-                    <div class="checkbox"></div>
-                </div>
-                <div class="jurusan-card" onclick="selectJurusan('tbsm')">
-                    <div class="jurusan-icon">🏍️</div>
-                    <h3>TBSM</h3>
-                    <p>Teknik Bisnis Sepeda Motor</p>
-                    <div class="checkbox"></div>
-                </div>
-            </div>
-            
-            <div class="card-footer">
-                <p>"Pilihan jurusan adalah langkah pertama menuju penguasaan keahlian di bidang teknologi"</p>
-            </div>
-        </div>
-    </div>
-
     <!-- Student Dashboard -->
     <div id="studentDashboard" class="page">
-        <!-- Student content remains the same as previous -->
         <div class="dashboard-container">
             <!-- Navigation Sidebar -->
             <div class="nav-sidebar">
                 <div class="nav-header">
                     <h3>📚 Menu TJKT</h3>
+                    <div class="user-class-badge" id="sidebarClassBadge"></div>
                 </div>
                 <nav class="nav-menu">
                     <button class="nav-btn active" onclick="showSection('home')">
@@ -336,103 +238,100 @@
                         <button onclick="sendAIMessage()">➤</button>
                     </div>
                 </div>
+
+                <!-- Logout Button -->
+                <div class="logout-section">
+                    <button class="logout-btn" onclick="logout()">
+                        🚪 Logout
+                    </button>
+                </div>
             </div>
 
             <!-- Main Content Area -->
             <div class="main-content">
                 <!-- Home Section -->
                 <div id="homeSection" class="content-section active">
+                    <!-- Content home section... -->
+                </div>
+
+                <!-- Materials Section -->
+                <div id="materialsSection" class="content-section">
+                    <!-- Content materials section... -->
+                </div>
+
+                <!-- Leaderboard Section -->
+                <div id="leaderboardSection" class="content-section">
+                    <!-- Content leaderboard section... -->
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profileSection" class="content-section">
                     <div class="content-header">
-                        <div class="user-info">
-                            <img id="userAvatar" src="" alt="Avatar">
-                            <div class="user-details">
-                                <span id="userName"></span>
-                                <span class="class-badge" id="userClass"></span>
-                                <span class="jurusan-badge" id="userJurusan"></span>
-                            </div>
-                        </div>
-                        <div class="daily-progress">
-                            <span>Day <span id="currentDay">1</span></span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="dailyProgress" style="width: 0%"></div>
-                            </div>
+                        <h2>👤 Profil Saya</h2>
+                        <div class="profile-actions">
+                            <button class="elegant-btn secondary" onclick="showProfileEditor()">
+                                ✏️ Edit Profil
+                            </button>
+                            <button class="elegant-btn secondary" onclick="logout()">
+                                🚪 Logout
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Welcome Card -->
-                    <div class="welcome-card">
-                        <h2>Selamat Datang di E-Learning TJKT! 🎉</h2>
-                        <p>Tingkatkan kemampuan jaringan komputer Anda dengan materi harian yang terstruktur.</p>
-                    </div>
+                    <div class="profile-full">
+                        <div class="profile-header">
+                            <img id="profileFullAvatar" src="" alt="Profile" class="profile-full-pic">
+                            <div class="profile-full-info">
+                                <h3 id="profileFullName"></h3>
+                                <div class="profile-badges">
+                                    <span class="profile-full-class" id="profileFullClass"></span>
+                                    <span class="profile-full-profession" id="profileFullProfession"></span>
+                                </div>
+                                <p class="profile-full-bio" id="profileFullBio"></p>
+                            </div>
+                        </div>
 
-                    <!-- Quick Stats -->
-                    <div class="quick-stats">
-                        <div class="stat-card">
-                            <div class="stat-icon">📚</div>
-                            <div class="stat-info">
-                                <span class="stat-number" id="materialsCompleted">0</span>
-                                <span class="stat-label">Materi Diselesaikan</span>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <span class="stat-value" id="profileTotalScore">0</span>
+                                <span class="stat-label">Total Score</span>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">⭐</div>
-                            <div class="stat-info">
-                                <span class="stat-number" id="averageScore">0%</span>
-                                <span class="stat-label">Rata-rata Nilai</span>
+                            <div class="profile-stat">
+                                <span class="stat-value" id="profileDaysActive">0</span>
+                                <span class="stat-label">Hari Aktif</span>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">🔥</div>
-                            <div class="stat-info">
-                                <span class="stat-number" id="currentStreak">0</span>
-                                <span class="stat-label">Hari Beruntun</span>
+                            <div class="profile-stat">
+                                <span class="stat-value" id="profileProblemsSolved">0</span>
+                                <span class="stat-label">Problem Solved</span>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">🏆</div>
-                            <div class="stat-info">
-                                <span class="stat-number" id="userRank">-</span>
+                            <div class="profile-stat">
+                                <span class="stat-value" id="profileRank">-</span>
                                 <span class="stat-label">Ranking</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Today's Task -->
-                    <div class="today-task">
-                        <h3>📋 Aktivitas Hari Ini</h3>
-                        <div class="task-list">
-                            <div class="task-item" id="materialTask">
-                                <span>📖 Baca Materi Hari Ini</span>
-                                <span class="task-status" id="materialStatus">Belum</span>
-                            </div>
-                            <div class="task-item" id="quizTask">
-                                <span>📝 Kerjakan 25 Soal Quiz</span>
-                                <span class="task-status" id="quizStatus">Belum</span>
-                            </div>
-                            <div class="task-item" id="challengeTask">
-                                <span>💡 Selesaikan 5 Problem Solving</span>
-                                <span class="task-status" id="challengeStatus">Belum</span>
+                        <div class="profile-interests">
+                            <h4>🎯 Bidang yang Diminati</h4>
+                            <div class="interests-tags" id="profileInterestsTags">
+                                <!-- Interests tags akan dimuat di sini -->
                             </div>
                         </div>
-                        <button class="elegant-btn" onclick="showSection('materials')">
-                            Mulai Belajar Hari Ini
-                        </button>
-                    </div>
 
-                    <!-- Class Leaderboard Preview -->
-                    <div class="leaderboard-preview">
-                        <h3>🏆 Top 5 Kelas <span id="previewClass"></span></h3>
-                        <div class="leaderboard-list" id="classLeaderboardPreview">
-                            <!-- Top 5 akan dimuat di sini -->
+                        <div class="profile-skills-full">
+                            <h4>🛠️ Keahlian</h4>
+                            <div class="skills-tags" id="profileSkillsTags">
+                                <!-- Skills tags akan dimuat di sini -->
+                            </div>
                         </div>
-                        <button class="elegant-btn secondary" onclick="showSection('leaderboard')">
-                            Lihat Leaderboard Lengkap
-                        </button>
+
+                        <div class="profile-achievements">
+                            <h4>🏅 Achievement</h4>
+                            <div class="achievements-grid" id="achievementsGrid">
+                                <!-- Achievements akan dimuat di sini -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Materials, Leaderboard, Profile sections remain the same -->
-                <!-- ... -->
             </div>
         </div>
     </div>
@@ -440,82 +339,119 @@
     <!-- Teacher Dashboard -->
     <div id="teacherDashboard" class="page">
         <div class="dashboard-container">
-            <!-- Monitoring Panel -->
-            <div class="monitoring-panel">
-                <div class="panel-header">
-                    <h3>📊 Real-Time Monitoring</h3>
-                    <div class="live-indicator"></div>
+            <!-- Teacher Navigation Sidebar -->
+            <div class="nav-sidebar">
+                <div class="nav-header">
+                    <h3>👨‍🏫 Teacher Portal</h3>
+                    <div class="user-role-badge">Guru</div>
                 </div>
-                <div class="monitoring-content">
-                    <div class="live-metrics">
-                        <div class="metric-card">
-                            <span class="metric-value" id="onlineStudents">0</span>
-                            <span class="metric-label">Siswa Online</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-value" id="todaySubmissions">0</span>
-                            <span class="metric-label">Submission Hari Ini</span>
-                        </div>
-                    </div>
-                    <div class="activity-feed" id="teacherActivityFeed">
-                        <div class="activity-item">Sistem monitoring diaktifkan...</div>
-                    </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn active" onclick="showTeacherSection('overview')">
+                        📊 Overview
+                    </button>
+                    <button class="nav-btn" onclick="showTeacherSection('students')">
+                        👥 Manage Siswa
+                    </button>
+                    <button class="nav-btn" onclick="showTeacherSection('materials')">
+                        📚 Kelola Materi
+                    </button>
+                    <button class="nav-btn" onclick="showTeacherSection('reports')">
+                        📈 Laporan
+                    </button>
+                </nav>
+                
+                <div class="logout-section">
+                    <button class="logout-btn" onclick="logout()">
+                        🚪 Logout
+                    </button>
                 </div>
             </div>
 
             <!-- Main Teacher Content -->
             <div class="main-content">
-                <div class="content-header">
-                    <div class="teacher-info">
-                        <h2>👨‍🏫 Teacher Dashboard</h2>
-                        <div class="teacher-details">
-                            <div id="teacherName">Guru TJKT</div>
-                            <div id="teacherEmail" style="font-size: 0.9em; color: #666;"></div>
-                            <div id="teacherJurusan" class="jurusan-badge"></div>
+                <!-- Teacher Overview Section -->
+                <div id="teacherOverviewSection" class="content-section active">
+                    <div class="content-header">
+                        <h2>📊 Teacher Overview</h2>
+                        <div class="user-info">
+                            <span id="teacherName"></span>
+                            <span class="role-badge">Guru</span>
                         </div>
                     </div>
-                    <div class="teacher-actions">
-                        <button class="elegant-btn" onclick="generateReport()">📈 Generate Laporan</button>
-                        <button class="elegant-btn secondary" onclick="manageContent()">📚 Kelola Konten</button>
-                        <button class="elegant-btn secondary" onclick="showProfileEditor()">👤 Edit Profil</button>
-                        <button class="elegant-btn secondary" onclick="showPage('loginPage')">🚪 Logout</button>
+
+                    <div class="teacher-stats">
+                        <div class="stat-card large">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="totalStudents">0</span>
+                                <span class="stat-label">Total Siswa</span>
+                            </div>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="activeStudents">0</span>
+                                <span class="stat-label">Siswa Aktif</span>
+                            </div>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="avgScore">0%</span>
+                                <span class="stat-label">Rata-rata Nilai</span>
+                            </div>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">📅</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="todayActivity">0</span>
+                                <span class="stat-label">Aktivitas Hari Ini</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teacher-content-grid">
+                        <div class="content-card">
+                            <h3>📈 Progress Kelas</h3>
+                            <div class="class-progress" id="classProgress">
+                                <!-- Progress per kelas akan dimuat di sini -->
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>🔔 Aktivitas Terbaru</h3>
+                            <div class="activity-feed" id="teacherActivityFeed">
+                                <!-- Aktivitas terbaru akan dimuat di sini -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Student Progress Grid -->
-                <div class="students-grid" id="studentsGrid">
-                    <div class="loading">Memuat data siswa...</div>
+                <!-- Other Teacher Sections -->
+                <div id="teacherStudentsSection" class="content-section">
+                    <div class="content-header">
+                        <h2>👥 Manage Siswa</h2>
+                    </div>
+                    <div class="students-management" id="studentsManagement">
+                        <!-- Management siswa akan dimuat di sini -->
+                    </div>
                 </div>
 
-                <!-- Quick Stats -->
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-info">
-                            <span class="stat-number" id="totalStudents">0</span>
-                            <span class="stat-label">Total Siswa</span>
-                        </div>
+                <div id="teacherMaterialsSection" class="content-section">
+                    <div class="content-header">
+                        <h2>📚 Kelola Materi</h2>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📊</div>
-                        <div class="stat-info">
-                            <span class="stat-number" id="avgProgress">0%</span>
-                            <span class="stat-label">Rata-rata Progress</span>
-                        </div>
+                    <div class="materials-management" id="materialsManagement">
+                        <!-- Management materi akan dimuat di sini -->
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">✅</div>
-                        <div class="stat-info">
-                            <span class="stat-number" id="activeToday">0</span>
-                            <span class="stat-label">Aktif Hari Ini</span>
-                        </div>
+                </div>
+
+                <div id="teacherReportsSection" class="content-section">
+                    <div class="content-header">
+                        <h2>📈 Laporan</h2>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">💡</div>
-                        <div class="stat-info">
-                            <span class="stat-number" id="problemsSolved">0</span>
-                            <span class="stat-label">Problem Solved</span>
-                        </div>
+                    <div class="reports-management" id="reportsManagement">
+                        <!-- Laporan akan dimuat di sini -->
                     </div>
                 </div>
             </div>
@@ -525,143 +461,130 @@
     <!-- Developer Dashboard -->
     <div id="developerDashboard" class="page">
         <div class="dashboard-container">
+            <!-- Developer Navigation Sidebar -->
             <div class="nav-sidebar">
                 <div class="nav-header">
-                    <h3>🛠️ Developer Menu</h3>
-                    <div class="dev-info" id="devInfo">
-                        <span>Developer: <strong id="devUserName">-</strong></span>
-                    </div>
+                    <h3>🛠️ Developer Portal</h3>
+                    <div class="user-role-badge">Developer</div>
                 </div>
                 <nav class="nav-menu">
-                    <button class="nav-btn active" onclick="showDevSection('metrics')">
-                        📊 System Metrics
+                    <button class="nav-btn active" onclick="showDeveloperSection('dashboard')">
+                        📊 Dashboard
                     </button>
-                    <button class="nav-btn" onclick="showDevSection('ai')">
-                        🤖 AI Analytics
+                    <button class="nav-btn" onclick="showDeveloperSection('users')">
+                        👥 Manage Users
                     </button>
-                    <button class="nav-btn" onclick="showDevSection('users')">
-                        👥 User Management
+                    <button class="nav-btn" onclick="showDeveloperSection('system')">
+                        ⚙️ System
                     </button>
-                    <button class="nav-btn" onclick="showDevSection('database')">
-                        💾 Database
-                    </button>
-                    <button class="nav-btn" onclick="showPage('loginPage')">
-                        🚪 Logout
+                    <button class="nav-btn" onclick="showDeveloperSection('analytics')">
+                        📈 Analytics
                     </button>
                 </nav>
+                
+                <div class="logout-section">
+                    <button class="logout-btn" onclick="logout()">
+                        🚪 Logout
+                    </button>
+                </div>
             </div>
 
+            <!-- Main Developer Content -->
             <div class="main-content">
-                <!-- System Metrics Section -->
-                <div id="devMetricsSection" class="content-section active">
+                <!-- Developer Dashboard Section -->
+                <div id="developerDashboardSection" class="content-section active">
                     <div class="content-header">
-                        <h2>📊 System Metrics</h2>
-                        <button class="elegant-btn" onclick="refreshMetrics()">
-                            🔄 Refresh
-                        </button>
+                        <h2>🛠️ Developer Dashboard</h2>
+                        <div class="user-info">
+                            <span id="developerName"></span>
+                            <span class="role-badge">Developer</span>
+                        </div>
                     </div>
 
-                    <div class="system-metrics">
-                        <div class="metric-grid">
-                            <div class="system-metric">
-                                <span class="metric-label">Active Users</span>
-                                <span class="metric-value" id="devActiveUsers">0</span>
+                    <div class="system-stats">
+                        <div class="stat-card large">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="totalUsers">0</span>
+                                <span class="stat-label">Total Users</span>
                             </div>
-                            <div class="system-metric">
-                                <span class="metric-label">Server Load</span>
-                                <span class="metric-value" id="devServerLoad">0%</span>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="activeSessions">0</span>
+                                <span class="stat-label">Active Sessions</span>
                             </div>
-                            <div class="system-metric">
-                                <span class="metric-label">AI Interactions</span>
-                                <span class="metric-value" id="devAIInteractions">0</span>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">💾</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="storageUsed">0MB</span>
+                                <span class="stat-label">Storage Used</span>
                             </div>
-                            <div class="system-metric">
-                                <span class="metric-label">Storage Usage</span>
-                                <span class="metric-value" id="devStorageUsage">0MB</span>
+                        </div>
+                        <div class="stat-card large">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-info">
+                                <span class="stat-number" id="systemLoad">0%</span>
+                                <span class="stat-label">System Load</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="developer-content-grid">
+                        <div class="content-card">
+                            <h3>🔧 Quick Actions</h3>
+                            <div class="quick-actions-grid">
+                                <button class="action-btn" onclick="backupSystem()">
+                                    💾 Backup System
+                                </button>
+                                <button class="action-btn" onclick="clearCache()">
+                                    🗑️ Clear Cache
+                                </button>
+                                <button class="action-btn" onclick="generateReport()">
+                                    📄 Generate Report
+                                </button>
+                                <button class="action-btn" onclick="systemDiagnostics()">
+                                    🔍 System Diagnostics
+                                </button>
                             </div>
                         </div>
 
-                        <div class="quick-actions">
-                            <h3>Quick Actions</h3>
-                            <div class="action-buttons">
-                                <button class="elegant-btn" onclick="showSystemMetrics()">
-                                    Detailed Metrics
-                                </button>
-                                <button class="elegant-btn secondary" onclick="clearCache()">
-                                    Clear Cache
-                                </button>
-                                <button class="elegant-btn secondary" onclick="exportData()">
-                                    Export Data
-                                </button>
+                        <div class="content-card">
+                            <h3>📈 Real-time Metrics</h3>
+                            <div class="metrics-grid" id="realTimeMetrics">
+                                <!-- Real-time metrics akan dimuat di sini -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- AI Analytics Section -->
-                <div id="devAISection" class="content-section">
+                <!-- Other Developer Sections -->
+                <div id="developerUsersSection" class="content-section">
                     <div class="content-header">
-                        <h2>🤖 AI Analytics</h2>
-                        <button class="elegant-btn" onclick="showAIAnalytics()">
-                            View Analytics
-                        </button>
+                        <h2>👥 Manage Users</h2>
                     </div>
-                    <div class="ai-analytics">
-                        <div class="ai-stats">
-                            <div class="ai-stat">
-                                <span class="stat-value" id="totalConversations">0</span>
-                                <span class="stat-label">Total Conversations</span>
-                            </div>
-                            <div class="ai-stat">
-                                <span class="stat-value" id="avgResponseTime">0ms</span>
-                                <span class="stat-label">Avg Response Time</span>
-                            </div>
-                            <div class="ai-stat">
-                                <span class="stat-value" id="satisfactionRate">0%</span>
-                                <span class="stat-label">Satisfaction Rate</span>
-                            </div>
-                        </div>
+                    <div class="users-management" id="usersManagement">
+                        <!-- Management users akan dimuat di sini -->
                     </div>
                 </div>
 
-                <!-- User Management Section -->
-                <div id="devUsersSection" class="content-section">
+                <div id="developerSystemSection" class="content-section">
                     <div class="content-header">
-                        <h2>👥 User Management</h2>
-                        <button class="elegant-btn" onclick="loadUsersSection()">
-                            🔄 Refresh
-                        </button>
+                        <h2>⚙️ System Configuration</h2>
                     </div>
-                    <div class="user-management">
-                        <div class="user-stats">
-                            <p>Total Registered Users: <strong id="totalUsers">0</strong></p>
-                            <p>Teachers: <strong id="totalTeachers">0</strong></p>
-                            <p>Students: <strong id="totalStudentsDev">0</strong></p>
-                        </div>
-                        <div class="users-list" id="usersList">
-                            <!-- Users list will be loaded here -->
-                        </div>
+                    <div class="system-config" id="systemConfig">
+                        <!-- System configuration akan dimuat di sini -->
                     </div>
                 </div>
 
-                <!-- Database Section -->
-                <div id="devDatabaseSection" class="content-section">
+                <div id="developerAnalyticsSection" class="content-section">
                     <div class="content-header">
-                        <h2>💾 Database Management</h2>
+                        <h2>📈 Analytics</h2>
                     </div>
-                    <div class="database-management">
-                        <div class="db-stats">
-                            <p>Local Storage Usage: <strong id="dbStorageUsage">0KB</strong></p>
-                            <p>Total Items: <strong id="dbTotalItems">0</strong></p>
-                        </div>
-                        <div class="db-actions">
-                            <button class="elegant-btn secondary" onclick="showDatabaseInfo()">
-                                Show Database Info
-                            </button>
-                            <button class="elegant-btn secondary" onclick="clearAllData()">
-                                Clear All Data
-                            </button>
-                        </div>
+                    <div class="analytics-dashboard" id="analyticsDashboard">
+                        <!-- Analytics dashboard akan dimuat di sini -->
                     </div>
                 </div>
             </div>
@@ -700,6 +623,19 @@
                         <option value="cybersecurity">Cybersecurity Specialist</option>
                         <option value="data_center">Data Center Technician</option>
                     </select>
+
+                    <label>Bidang yang Diminati:</label>
+                    <select id="profileEditInterests" class="elegant-select" multiple>
+                        <option value="network_design">Desain Jaringan</option>
+                        <option value="network_security">Keamanan Jaringan</option>
+                        <option value="cloud_computing">Cloud Computing</option>
+                        <option value="iot">Internet of Things</option>
+                        <option value="cyber_security">Cyber Security</option>
+                        <option value="data_analysis">Analisis Data</option>
+                        <option value="web_development">Web Development</option>
+                        <option value="mobile_development">Mobile Development</option>
+                    </select>
+                    <small>Tekan Ctrl untuk memilih multiple bidang</small>
                     
                     <label>Keahlian:</label>
                     <div class="skills-edit-grid">
@@ -721,4 +657,4 @@
 
     <script src="script.js"></script>
 </body>
-                                                                                 </html>
+                            </html>
