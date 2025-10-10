@@ -1,151 +1,45 @@
-// Global State Management
-let currentUser = null;
-let currentJurusan = null;
-let userRole = null;
-let userClass = null;
-let currentQuizAnswers = [];
-let currentChallengeSolutions = [];
-let currentDeveloper = null;
-
-// Developer Accounts Database
+// Database Developer Accounts
 const developerAccounts = {
-    "dev1": {
-        username: "dev1",
-        password: "dev123",
-        name: "Developer 1",
-        role: "developer",
-        permissions: ["system_metrics", "ai_analytics", "user_management", "database"]
-    },
-    "dev2": {
-        username: "dev2", 
-        password: "dev456",
-        name: "Developer 2",
-        role: "developer",
-        permissions: ["system_metrics", "ai_analytics", "user_management", "database"]
-    }
+    'fatkul.dev': { password: 'dev123', name: 'Fatkul Developer' },
+    'reza.dev': { password: 'dev456', name: 'Reza Developer' }
 };
 
-// Teacher Demo Account
-const demoTeacherAccount = {
-    name: "Guru TJKT Demo",
-    email: "guru@tjkt.sch.id",
-    password: "guru123",
-    jurusan: ["tjkt"],
-    registeredAt: new Date().toISOString(),
-    status: "approved",
-    role: "teacher"
+// Database Teacher Accounts
+const teacherAccounts = {
+    'guru@tjkt.sch.id': { password: 'guru123', name: 'Guru TJKT' }
 };
 
-// Database Materi TJKT 10 Hari
-const tjktMaterials = {
-    day1: {
-        title: "PENGENALAN PROSES BISNIS DI BIDANG TJKT",
-        content: `
-            <h3>1. PROSES BISNIS</h3>
-            <p><strong>Pengertian:</strong> Serangkaian aktivitas terstruktur dan terorganisir yang dilakukan oleh individu atau organisasi untuk mencapai tujuan tertentu dengan cara memproduksi, membeli, dan menjual barang atau jasa.</p>
-            
-            <h4>Detail:</h4>
-            <ul>
-                <li><strong>Tahapan terstruktur:</strong> Setiap proses bisnis memiliki urutan langkah yang jelas</li>
-                <li><strong>Input → Proses → Output:</strong> Dari bahan baku/sumber daya menjadi produk/jasa</li>
-                <li><strong>Contoh:</strong> Pembelian bahan → Produksi → Pemasaran → Penjualan</li>
-                <li><strong>Dalam konteks TJKT:</strong> Jaringan komputer digunakan untuk mendukung seluruh tahapan ini</li>
-            </ul>
-
-            <h3>2. PELAKU USAHA INDIVIDU</h3>
-            <p><strong>Pengertian:</strong> Seorang entrepreneur yang menjalankan seluruh proses bisnis secara mandiri, mulai dari perencanaan, produksi, hingga pemasaran.</p>
-            
-            <h4>Ciri-ciri:</h4>
-            <ul>
-                <li>Modal terbatas</li>
-                <li>Pengambilan keputusan cepat</li>
-                <li>Tanggung jawab penuh pada satu orang</li>
-            </ul>
-
-            <h3>3. PELAKU USAHA KELOMPOK/ORGANISASI</h3>
-            <p><strong>Pengertian:</strong> Sekumpulan orang atau divisi yang bekerja sama dengan pembagian tugas spesifik untuk menjalankan proses bisnis.</p>
-
-            <h3>4. PERAN JARINGAN KOMPUTER DALAM PROSES BISNIS</h3>
-            <p><strong>Pengertian:</strong> Pemanfaatan infrastruktu jaringan komputer untuk meningkatkan efisiensi, komunikasi, dan koordinasi dalam menjalankan bisnis.</p>
-        `,
-        quiz: [
-            {
-                question: "Apa yang dimaksud dengan proses bisnis?",
-                options: [
-                    "Kumpulan aktivitas tidak teratur dalam organisasi",
-                    "Serangkaian aktivitas terstruktur untuk mencapai tujuan bisnis",
-                    "Hanya kegiatan produksi barang",
-                    "Sistem komputer dalam perusahaan"
-                ],
-                answer: 1,
-                explanation: "Proses bisnis adalah serangkaian aktivitas terstruktur dan terorganisir untuk mencapai tujuan bisnis."
-            },
-            {
-                question: "Apa ciri khas pelaku usaha individu?",
-                options: [
-                    "Modal tidak terbatas dan banyak karyawan",
-                    "Pengambilan keputusan lambat dan berjenjang",
-                    "Modal terbatas dan tanggung jawab pada satu orang",
-                    "Biasanya perusahaan multinasional"
-                ],
-                answer: 2,
-                explanation: "Pelaku usaha individu memiliki modal terbatas dan tanggung jawab penuh pada satu orang."
-            },
-            // ... (23 soal lainnya)
-        ],
-        challenges: [
-            {
-                problem: "Rancang proses bisnis sederhana untuk usaha servis komputer dengan menjelaskan tahapan input-proses-output!",
-                solution: "Input: Komputer rusak, sparepart, tools. Proses: Diagnosa kerusakan, perbaikan hardware/software, testing. Output: Komputer berfungsi normal, laporan servis, invoice pembayaran.",
-                points: 20
-            },
-            // ... (4 problem lainnya)
-        ]
-    }
-    // ... (hari 2-10)
-};
-
-// System Initialization
-document.addEventListener('DOMContentLoaded', function() {
-    initializeSystem();
-    setupEventListeners();
-    createDemoAccounts();
-});
-
+// Enhanced initializeSystem function
 function initializeSystem() {
     // Check for existing user session
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         const userData = getUserData(currentUser.email);
+        
         if (userData) {
-            currentJurusan = userData.jurusan;
-            userClass = userData.class;
-            userRole = userData.role || 'student';
-            
-            if (userRole === 'student') {
-                showStudentDashboard();
-            } else if (userRole === 'teacher') {
+            if (userData.role === 'teacher') {
+                userRole = 'teacher';
                 showTeacherDashboard();
-            } else if (userRole === 'developer') {
+            } else if (userData.role === 'developer') {
+                userRole = 'developer';
                 showDeveloperDashboard();
+            } else if (userData.jurusan && userData.profileCompleted) {
+                currentJurusan = userData.jurusan;
+                userClass = userData.class;
+                userRole = 'student';
+                showStudentDashboard();
+            } else if (userData.jurusan) {
+                currentJurusan = userData.jurusan;
+                showProfileSetup();
+            } else {
+                showJurusanSelection();
             }
         }
     }
 }
 
-function createDemoAccounts() {
-    // Create demo teacher account if not exists
-    if (!localStorage.getItem('teacher_guru@tjkt.sch.id')) {
-        localStorage.setItem('teacher_guru@tjkt.sch.id', JSON.stringify(demoTeacherAccount));
-        localStorage.setItem('user_guru@tjkt.sch.id', JSON.stringify({
-            ...demoTeacherAccount,
-            profileCompleted: true
-        }));
-        console.log('✅ Demo teacher account created');
-    }
-}
-
+// Enhanced setupEventListeners function
 function setupEventListeners() {
     // Email Registration
     document.getElementById('emailRegForm').addEventListener('submit', handleEmailRegistration);
@@ -181,736 +75,7 @@ function setupEventListeners() {
     });
 }
 
-// ==================== AUTHENTICATION SYSTEM ====================
-
-// Google Login Handler
-function handleGoogleLogin(response) {
-    try {
-        const userData = decodeJWTResponse(response.credential);
-        
-        currentUser = {
-            id: userData.sub,
-            name: userData.name,
-            email: userData.email,
-            picture: userData.picture,
-            role: 'student'
-        };
-        
-        // Save user session
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        
-        // Check if user exists and has completed profile
-        const userExists = checkUserExists(userData.email);
-        
-        if (!userExists) {
-            showJurusanSelection();
-        } else {
-            const userData = getUserData(currentUser.email);
-            if (userData.profileCompleted) {
-                currentJurusan = userData.jurusan;
-                userClass = userData.class;
-                userRole = 'student';
-                showStudentDashboard();
-            } else {
-                showProfileSetup();
-            }
-        }
-    } catch (error) {
-        console.error('Google login error:', error);
-        alert('Terjadi error saat login dengan Google. Silakan coba lagi.');
-    }
-}
-
-function decodeJWTResponse(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-}
-
-// Teacher Registration Handler
-function handleTeacherRegistration(e) {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.querySelector('input[type="text"]').value;
-    const email = form.querySelector('input[type="email"]').value;
-    const password = form.querySelector('input[type="password"]').value;
-    const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
-    
-    // Validation
-    if (password !== confirmPassword) {
-        alert('Password dan konfirmasi password tidak cocok');
-        return;
-    }
-    
-    if (password.length < 6) {
-        alert('Password harus minimal 6 karakter');
-        return;
-    }
-    
-    // Get selected jurusan
-    const selectedJurusan = [];
-    form.querySelectorAll('input[name="jurusan"]:checked').forEach(checkbox => {
-        selectedJurusan.push(checkbox.value);
-    });
-    
-    if (selectedJurusan.length === 0) {
-        alert('Pilih minimal satu jurusan yang diajar');
-        return;
-    }
-    
-    // Save teacher registration
-    const teacherData = {
-        name: name,
-        email: email,
-        password: password,
-        jurusan: selectedJurusan,
-        registeredAt: new Date().toISOString(),
-        status: 'approved', // Auto-approve for demo
-        role: 'teacher'
-    };
-    
-    localStorage.setItem(`teacher_${email}`, JSON.stringify(teacherData));
-    localStorage.setItem(`user_${email}`, JSON.stringify({
-        ...teacherData,
-        profileCompleted: true
-    }));
-    
-    alert('Pendaftaran akun guru berhasil! Akun sudah aktif.');
-    showPage('loginPage');
-    form.reset();
-}
-
-// Teacher Login Handler
-function handleTeacherLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById('teacherEmailInput').value;
-    const password = document.getElementById('teacherPasswordInput').value;
-    
-    console.log('Teacher login attempt:', email);
-    
-    // Check if demo teacher account
-    if (email === 'guru@tjkt.sch.id' && password === 'guru123') {
-        loginTeacher(demoTeacherAccount);
-        return;
-    }
-    
-    // Check if teacher account exists
-    const teacherData = localStorage.getItem(`teacher_${email}`);
-    
-    if (!teacherData) {
-        alert('Akun guru tidak ditemukan. Silakan daftar terlebih dahulu.');
-        return;
-    }
-    
-    const teacher = JSON.parse(teacherData);
-    
-    // Verify password
-    if (teacher.password === password) {
-        if (teacher.status === 'approved') {
-            loginTeacher(teacher);
-        } else {
-            alert('Akun guru menunggu persetujuan administrator.');
-        }
-    } else {
-        alert('Password salah. Silakan coba lagi.');
-    }
-}
-
-function loginTeacher(teacher) {
-    userRole = 'teacher';
-    currentUser = {
-        id: 'teacher_' + teacher.email,
-        name: teacher.name,
-        email: teacher.email,
-        picture: 'https://via.placeholder.com/150/667eea/ffffff?text=T',
-        class: 'teacher',
-        role: 'teacher'
-    };
-    
-    // Save user session
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    
-    // Redirect to teacher dashboard
-    showTeacherDashboard();
-}
-
-// Developer Login System
-function showDeveloperLogin() {
-    document.getElementById('developerLoginModal').style.display = 'block';
-}
-
-function closeDeveloperLogin() {
-    document.getElementById('developerLoginModal').style.display = 'none';
-}
-
-function handleDeveloperLogin(e) {
-    e.preventDefault();
-    const username = document.getElementById('devUsername').value;
-    const password = document.getElementById('devPassword').value;
-    
-    console.log('Developer login attempt:', username);
-    
-    // Check developer accounts
-    const developer = developerAccounts[username];
-    
-    if (developer && developer.password === password) {
-        loginDeveloper(developer);
-    } else {
-        alert('Username atau password developer salah.');
-    }
-}
-
-function loginDeveloper(developer) {
-    userRole = 'developer';
-    currentDeveloper = developer;
-    currentUser = {
-        id: 'developer_' + developer.username,
-        name: developer.name,
-        username: developer.username,
-        role: 'developer'
-    };
-    
-    // Save user session
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    localStorage.setItem('currentDeveloper', JSON.stringify(developer));
-    
-    closeDeveloperLogin();
-    showDeveloperDashboard();
-}
-
-// ==================== DASHBOARD SYSTEMS ====================
-
-// Page Navigation
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    document.getElementById(pageId).classList.add('active');
-}
-
-function showSection(sectionId) {
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.getElementById(sectionId + 'Section').classList.add('active');
-    document.querySelector(`.nav-btn[onclick="showSection('${sectionId}')"]`).classList.add('active');
-    
-    switch(sectionId) {
-        case 'home': loadHomeSection(); break;
-        case 'materials': loadMaterialsSection(); break;
-        case 'leaderboard': loadLeaderboardSection(); break;
-        case 'profile': loadProfileSection(); break;
-    }
-}
-
-// Student Dashboard
-function showStudentDashboard() {
-    showPage('studentDashboard');
-    showSection('home');
-}
-
-function loadHomeSection() {
-    loadStudentData();
-    updateTaskStatus();
-    loadClassLeaderboardPreview();
-}
-
-function loadStudentData() {
-    if (currentUser) {
-        document.getElementById('userName').textContent = currentUser.name;
-        document.getElementById('userAvatar').src = currentUser.picture;
-        document.getElementById('userJurusan').textContent = currentJurusan ? 'TJKT' : '';
-        document.getElementById('userClass').textContent = getClassDisplayName(currentUser.class);
-        
-        const progress = getStudentProgress(currentUser.email);
-        document.getElementById('materialsCompleted').textContent = progress.materialsCompleted || 0;
-        document.getElementById('averageScore').textContent = (progress.averageScore || 0) + '%';
-        document.getElementById('currentStreak').textContent = progress.currentStreak || 0;
-        document.getElementById('userRank').textContent = '#' + (progress.rank || '-');
-        
-        const progressBar = document.getElementById('dailyProgress');
-        const day = getCurrentDay();
-        const dailyProgress = calculateDailyProgress(day);
-        progressBar.style.width = dailyProgress + '%';
-        
-        document.getElementById('currentDay').textContent = day;
-    }
-}
-
-// Teacher Dashboard
-function showTeacherDashboard() {
-    showPage('teacherDashboard');
-    loadTeacherData();
-}
-
-function loadTeacherData() {
-    updateOnlineStudents();
-    startRealTimeMonitoring();
-    loadStudentsList();
-    loadTeacherProfile();
-    updateTeacherStats();
-}
-
-function loadTeacherProfile() {
-    if (currentUser) {
-        const teacherData = JSON.parse(localStorage.getItem(`teacher_${currentUser.email}`)) || demoTeacherAccount;
-        document.getElementById('teacherName').textContent = teacherData.name;
-        document.getElementById('teacherEmail').textContent = currentUser.email;
-        document.getElementById('teacherJurusan').textContent = teacherData.jurusan.map(j => j.toUpperCase()).join(', ');
-    }
-}
-
-function updateOnlineStudents() {
-    const onlineCount = Math.floor(Math.random() * 15) + 5;
-    const submissionCount = Math.floor(Math.random() * 10) + 2;
-    
-    document.getElementById('onlineStudents').textContent = onlineCount;
-    document.getElementById('todaySubmissions').textContent = submissionCount;
-}
-
-function startRealTimeMonitoring() {
-    setInterval(() => {
-        updateOnlineStudents();
-        addSampleActivity();
-    }, 5000);
-}
-
-function addSampleActivity() {
-    const activities = [
-        'Andi menyelesaikan materi jaringan komputer',
-        'Budi mengumpulkan kuis akuntansi - Nilai: 85%',
-        'Citra memulai tantangan problem solving',
-        'Dewi berinteraksi dengan AI assistant',
-        'Eka menyelesaikan kuis dengan nilai 90%',
-        'Fajar menyelesaikan semua aktivitas hari ini',
-        'Gita bertanya tentang konfigurasi router'
-    ];
-    
-    const activityFeed = document.getElementById('teacherActivityFeed');
-    const activity = document.createElement('div');
-    activity.className = 'activity-item';
-    activity.textContent = activities[Math.floor(Math.random() * activities.length)];
-    
-    activityFeed.insertBefore(activity, activityFeed.firstChild);
-    
-    if (activityFeed.children.length > 10) {
-        activityFeed.removeChild(activityFeed.lastChild);
-    }
-}
-
-function loadStudentsList() {
-    const studentsGrid = document.getElementById('studentsGrid');
-    const students = getAllStudents();
-    
-    studentsGrid.innerHTML = students.map(student => `
-        <div class="student-item">
-            <img src="https://via.placeholder.com/50/667eea/ffffff?text=${student.name.charAt(0)}" alt="${student.name}">
-            <div style="flex: 1;">
-                <h4 style="margin: 0 0 5px 0;">${student.name}</h4>
-                <p style="margin: 0; color: #666; font-size: 0.85em;">${student.email}</p>
-                <p style="margin: 5px 0 0 0; color: #666; font-size: 0.8em;">
-                    Kelas: ${getClassDisplayName(student.class)} | 
-                    Hari Aktif: ${student.daysActive || 0}
-                </p>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 1.2em; font-weight: bold; color: #667eea;">${student.progress || 0}%</div>
-                <div style="font-size: 0.75em; color: #666;">Progress</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function updateTeacherStats() {
-    const students = getAllStudents();
-    const totalStudents = students.length;
-    const avgProgress = students.reduce((sum, student) => sum + (student.progress || 0), 0) / totalStudents || 0;
-    const activeToday = Math.floor(totalStudents * 0.7);
-    const problemsSolved = students.reduce((sum, student) => sum + (student.problemsSolved || 0), 0);
-    
-    document.getElementById('totalStudents').textContent = totalStudents;
-    document.getElementById('avgProgress').textContent = Math.round(avgProgress) + '%';
-    document.getElementById('activeToday').textContent = activeToday;
-    document.getElementById('problemsSolved').textContent = problemsSolved;
-}
-
-function generateReport() {
-    const students = getAllStudents();
-    const report = {
-        title: 'Laporan Progress Siswa',
-        generatedAt: new Date().toLocaleDateString('id-ID'),
-        totalStudents: students.length,
-        averageProgress: students.reduce((sum, student) => sum + (student.progress || 0), 0) / students.length || 0,
-        students: students
-    };
-    
-    alert(`Laporan berhasil digenerate!\n\nTotal Siswa: ${report.totalStudents}\nRata-rata Progress: ${Math.round(report.averageProgress)}%\n\nLaporan lengkap akan dikirim ke email.`);
-}
-
-function manageContent() {
-    alert('Membuka panel manajemen konten...\n\nFitur ini memungkinkan guru untuk:\n- Menambah/mengedit materi\n- Membuat soal quiz\n- Mengatur problem solving\n- Melihat statistik pembelajaran');
-}
-
-// Developer Dashboard
-function showDeveloperDashboard() {
-    showPage('developerDashboard');
-    showDevSection('metrics');
-    loadDeveloperInfo();
-}
-
-function loadDeveloperInfo() {
-    if (currentDeveloper) {
-        document.getElementById('devUserName').textContent = currentDeveloper.name;
-    }
-}
-
-function showDevSection(sectionId) {
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.getElementById('dev' + capitalizeFirst(sectionId) + 'Section').classList.add('active');
-    document.querySelector(`.nav-btn[onclick="showDevSection('${sectionId}')"]`).classList.add('active');
-    
-    switch(sectionId) {
-        case 'metrics': loadMetricsSection(); break;
-        case 'users': loadUsersSection(); break;
-        case 'ai': loadAISection(); break;
-        case 'database': loadDatabaseSection(); break;
-    }
-}
-
-function capitalizeFirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function loadMetricsSection() {
-    document.getElementById('devActiveUsers').textContent = calculateActiveUsers();
-    document.getElementById('devServerLoad').textContent = calculateServerLoad() + '%';
-    document.getElementById('devAIInteractions').textContent = calculateAIInteractions();
-    document.getElementById('devStorageUsage').textContent = calculateStorageUsage() + 'MB';
-}
-
-function loadUsersSection() {
-    const users = getAllUsers();
-    const teachers = users.filter(u => u.role === 'teacher');
-    const students = users.filter(u => u.role === 'student');
-    
-    document.getElementById('totalUsers').textContent = users.length;
-    document.getElementById('totalTeachers').textContent = teachers.length;
-    document.getElementById('totalStudentsDev').textContent = students.length;
-    
-    const usersHTML = users.map(user => `
-        <div class="user-item">
-            <strong>${user.name}</strong> 
-            <span>(${user.role}) - ${user.email}</span>
-            <span>Kelas: ${user.class || 'N/A'}</span>
-            <span>Status: ${user.status || 'active'}</span>
-        </div>
-    `).join('');
-    
-    document.getElementById('usersList').innerHTML = usersHTML || '<p>No users found</p>';
-}
-
-function loadAISection() {
-    const aiStats = getAIAnalytics();
-    document.getElementById('totalConversations').textContent = aiStats.totalConversations;
-    document.getElementById('avgResponseTime').textContent = aiStats.avgResponseTime + 'ms';
-    document.getElementById('satisfactionRate').textContent = aiStats.satisfactionRate + '%';
-}
-
-function loadDatabaseSection() {
-    document.getElementById('dbStorageUsage').textContent = calculateStorageUsageKB() + 'KB';
-    document.getElementById('dbTotalItems').textContent = localStorage.length;
-}
-
-function refreshMetrics() {
-    loadMetricsSection();
-    alert('Metrics refreshed!');
-}
-
-function showSystemMetrics() {
-    const metrics = {
-        activeUsers: calculateActiveUsers(),
-        serverLoad: calculateServerLoad(),
-        aiInteractions: calculateAIInteractions(),
-        storageUsage: calculateStorageUsage(),
-        totalUsers: getAllUsers().length,
-        uptime: '99.9%',
-        responseTime: '125ms'
-    };
-    
-    alert(`📊 Detailed System Metrics:\n\n` +
-          `Active Users: ${metrics.activeUsers}\n` +
-          `Server Load: ${metrics.serverLoad}%\n` +
-          `AI Interactions: ${metrics.aiInteractions}\n` +
-          `Storage Usage: ${metrics.storageUsage}MB\n` +
-          `Total Users: ${metrics.totalUsers}\n` +
-          `Uptime: ${metrics.uptime}\n` +
-          `Avg Response Time: ${metrics.responseTime}`);
-}
-
-function showAIAnalytics() {
-    const aiStats = getAIAnalytics();
-    alert(`🤖 AI Analytics Dashboard:\n\n` +
-          `Total Conversations: ${aiStats.totalConversations}\n` +
-          `Most Common Questions: ${aiStats.commonQuestions.join(', ')}\n` +
-          `Average Response Time: ${aiStats.avgResponseTime}ms\n` +
-          `User Satisfaction: ${aiStats.satisfactionRate}%`);
-}
-
-function clearCache() {
-    if (confirm('Clear all cached data? This will reset user sessions but keep progress data.')) {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('currentDeveloper');
-        alert('Cache cleared! Users will need to login again.');
-    }
-}
-
-function exportData() {
-    const data = {
-        users: getAllUsers(),
-        timestamp: new Date().toISOString(),
-        exportBy: currentDeveloper.name
-    };
-    
-    const dataStr = JSON.stringify(data, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(dataBlob);
-    link.download = 'e-learning-data-' + new Date().toISOString().split('T')[0] + '.json';
-    link.click();
-    
-    alert('Data exported successfully!');
-}
-
-function showDatabaseInfo() {
-    let info = 'Local Storage Contents:\n\n';
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const value = localStorage.getItem(key);
-        info += `${key}: ${value.length} characters\n`;
-    }
-    alert(info);
-}
-
-function clearAllData() {
-    if (confirm('⚠️ DANGER! This will delete ALL data including user accounts and progress. This action cannot be undone!\n\nAre you sure?')) {
-        localStorage.clear();
-        alert('All data has been cleared. The page will reload.');
-        location.reload();
-    }
-}
-
-// ==================== UTILITY FUNCTIONS ====================
-
-function calculateActiveUsers() {
-    const users = Object.keys(localStorage).filter(key => key.startsWith('user_'));
-    return users.length;
-}
-
-function calculateServerLoad() {
-    return Math.floor(Math.random() * 40) + 10;
-}
-
-function calculateAIInteractions() {
-    return Math.floor(Math.random() * 200) + 100;
-}
-
-function calculateStorageUsage() {
-    let total = 0;
-    for (let key in localStorage) {
-        if (localStorage.hasOwnProperty(key)) {
-            total += localStorage[key].length;
-        }
-    }
-    return Math.round(total / 1024 / 1024 * 100) / 100;
-}
-
-function calculateStorageUsageKB() {
-    let total = 0;
-    for (let key in localStorage) {
-        if (localStorage.hasOwnProperty(key)) {
-            total += localStorage[key].length;
-        }
-    }
-    return Math.round(total / 1024);
-}
-
-function getAIAnalytics() {
-    return {
-        totalConversations: Math.floor(Math.random() * 500) + 200,
-        commonQuestions: ['Materi jaringan', 'Cara konfigurasi', 'Problem solving', 'Quiz help'],
-        avgResponseTime: Math.floor(Math.random() * 500) + 1000,
-        satisfactionRate: Math.floor(Math.random() * 30) + 70
-    };
-}
-
-function getAllUsers() {
-    const users = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('user_')) {
-            try {
-                const userData = JSON.parse(localStorage.getItem(key));
-                if (userData && userData.name) {
-                    const progress = getStudentProgress(userData.email);
-                    users.push({
-                        ...userData,
-                        progress: progress.averageScore || 0,
-                        daysActive: progress.daysActive || 0,
-                        problemsSolved: progress.problemsSolved || 0
-                    });
-                }
-            } catch (e) {
-                console.log('Error parsing user data:', key);
-            }
-        }
-    }
-    return users;
-}
-
-function getAllStudents() {
-    return getAllUsers().filter(user => user.role === 'student');
-}
-
-// ==================== PROFILE SYSTEM ====================
-
-function showProfileSetup() {
-    showPage('profileSetup');
-}
-
-function handleProfileSetup(e) {
-    e.preventDefault();
-    const bio = document.getElementById('userBio').value;
-    const profession = document.getElementById('professionSelect').value;
-    const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
-    
-    const userData = getUserData(currentUser.email);
-    userData.bio = bio;
-    userData.profession = profession;
-    userData.skills = skills;
-    userData.profileCompleted = true;
-    userData.jurusan = currentJurusan;
-    
-    saveUserData(currentUser.email, userData);
-    
-    currentUser = { ...currentUser, ...userData };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    
-    alert('Profil berhasil disimpan!');
-    userRole = 'student';
-    showStudentDashboard();
-}
-
-function showProfileEditor() {
-    const userData = getUserData(currentUser.email);
-    const modal = document.getElementById('profileEditor');
-    
-    document.getElementById('profileEditPreview').src = currentUser.picture;
-    document.getElementById('profileEditBio').value = userData.bio || '';
-    document.getElementById('profileEditProfession').value = userData.profession || '';
-    
-    document.querySelectorAll('input[name="edit_skills"]').forEach(checkbox => {
-        checkbox.checked = (userData.skills || []).includes(checkbox.value);
-    });
-    
-    modal.style.display = 'block';
-}
-
-function closeProfileEditor() {
-    document.getElementById('profileEditor').style.display = 'none';
-}
-
-function handleProfileEdit(e) {
-    e.preventDefault();
-    const bio = document.getElementById('profileEditBio').value;
-    const profession = document.getElementById('profileEditProfession').value;
-    const skills = Array.from(document.querySelectorAll('input[name="edit_skills"]:checked')).map(cb => cb.value);
-    
-    const userData = getUserData(currentUser.email);
-    userData.bio = bio;
-    userData.profession = profession;
-    userData.skills = skills;
-    
-    saveUserData(currentUser.email, userData);
-    currentUser = { ...currentUser, ...userData };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    
-    closeProfileEditor();
-    if (userRole === 'student') loadProfileSection();
-    alert('Profil berhasil diperbarui!');
-}
-
-// ==================== LOCAL STORAGE MANAGEMENT ====================
-
-function checkUserExists(email) {
-    return localStorage.getItem(`user_${email}`) !== null;
-}
-
-function getUserData(email) {
-    return JSON.parse(localStorage.getItem(`user_${email}`)) || {};
-}
-
-function saveUserData(email, data) {
-    localStorage.setItem(`user_${email}`, JSON.stringify(data));
-}
-
-function getStudentProgress(email) {
-    return JSON.parse(localStorage.getItem(`progress_${email}`)) || {
-        materialsCompleted: 0,
-        averageScore: 0,
-        currentStreak: 0,
-        totalScore: 0,
-        daysActive: 0,
-        problemsSolved: 0,
-        currentDay: 1
-    };
-}
-
-function getCurrentDay() {
-    const userProgress = getUserProgress(currentUser.email);
-    return userProgress.currentDay || 1;
-}
-
-function getUserProgress(email) {
-    return JSON.parse(localStorage.getItem(`user_progress_${email}`)) || {
-        currentDay: 1,
-        lastAccessDate: null,
-        completedDays: [],
-        dailyProgress: {}
-    };
-}
-
-function getClassDisplayName(classId) {
-    const classNames = {
-        '10_tjkt_1': 'X TJKT 1',
-        '10_tjkt_2': 'X TJKT 2',
-        '10_tjkt_3': 'X TJKT 3',
-        '11_tjkt_1': 'XI TJKT 1',
-        '11_tjkt_2': 'XI TJKT 2',
-        '12_tjkt_1': 'XII TJKT 1',
-        '12_tjkt_2': 'XII TJKT 2',
-        'teacher': 'Guru',
-        'developer': 'Developer'
-    };
-    return classNames[classId] || classId;
-}
-
-// ==================== DEMO ACCOUNT INFO ====================
-
-// Email Registration Handler
+// Enhanced handleEmailRegistration function
 function handleEmailRegistration(e) {
     e.preventDefault();
     const form = e.target;
@@ -920,6 +85,7 @@ function handleEmailRegistration(e) {
     const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
     const userClass = form.querySelector('#classSelect').value;
     
+    // Validation
     if (password !== confirmPassword) {
         alert('Password dan konfirmasi password tidak cocok');
         return;
@@ -935,6 +101,7 @@ function handleEmailRegistration(e) {
         return;
     }
     
+    // Create user account
     currentUser = {
         id: 'email_' + Date.now(),
         name: name,
@@ -944,130 +111,128 @@ function handleEmailRegistration(e) {
         role: 'student'
     };
     
+    // Save user data
     saveUserData(currentUser.email, {
         ...currentUser,
         jurusan: currentJurusan,
         class: userClass,
         profileCompleted: false,
-        registeredAt: new Date().toISOString()
+        registeredAt: new Date().toISOString(),
+        role: 'student'
     });
     
+    // Save user session
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     
     alert('Pendaftaran berhasil! Silakan lengkapi profil Anda.');
     showProfileSetup();
+    
+    // Reset form
     form.reset();
 }
 
-function selectJurusan(jurusan) {
-    currentJurusan = jurusan;
-    document.querySelectorAll('.jurusan-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    event.currentTarget.classList.add('selected');
-    showProfileSetup();
-}
-
-function showJurusanSelection() {
-    if (currentUser) {
-        document.getElementById('welcomeMessage').textContent = 
-            `Halo ${currentUser.name}, pilih jurusan untuk melanjutkan`;
-    }
-    showPage('jurusanSelection');
-}
-
-function showEmailRegistration() {
-    showPage('emailRegistration');
-}
-
-function showTeacherRegistration() {
-    showPage('teacherRegistration');
-}
-
-// Profile Picture Handlers
-function handleProfilePictureChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profilePreview').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-}
-
-function handleProfileEditPictureChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profileEditPreview').src = e.target.result;
-            currentUser.picture = e.target.result;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        }
-        reader.readAsDataURL(file);
-    }
-}
-
-// AI Chat System
-function sendAIMessage() {
-    const input = document.getElementById('aiInput');
-    const message = input.value.trim();
+// Enhanced handleProfileSetup function
+function handleProfileSetup(e) {
+    e.preventDefault();
+    const form = e.target;
+    const bio = document.getElementById('userBio').value;
+    const profession = document.getElementById('professionSelect').value;
+    const interestField = document.getElementById('interestField');
+    const interests = Array.from(interestField.selectedOptions).map(option => option.value);
+    const skills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
     
-    if (message) {
-        addChatMessage(message, 'user');
-        input.value = '';
+    // Update user data
+    const userData = getUserData(currentUser.email);
+    userData.bio = bio;
+    userData.profession = profession;
+    userData.interests = interests;
+    userData.skills = skills;
+    userData.profileCompleted = true;
+    
+    saveUserData(currentUser.email, userData);
+    
+    // Update current user
+    currentUser = { ...currentUser, ...userData };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    alert('Profil berhasil disimpan!');
+    userRole = 'student';
+    showStudentDashboard();
+}
+
+// Teacher Login Handler
+function handleTeacherLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.querySelector('#teacherEmail').value;
+    const password = form.querySelector('#teacherPassword').value;
+    
+    if (teacherAccounts[email] && teacherAccounts[email].password === password) {
+        currentUser = {
+            id: 'teacher_' + email,
+            name: teacherAccounts[email].name,
+            email: email,
+            picture: 'https://via.placeholder.com/150/667eea/ffffff?text=G',
+            role: 'teacher'
+        };
         
-        setTimeout(() => {
-            const aiResponse = generateAIResponse(message);
-            addChatMessage(aiResponse, 'ai');
-        }, 1000);
+        // Save user session
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Save user data
+        saveUserData(currentUser.email, {
+            ...currentUser,
+            profileCompleted: true,
+            registeredAt: new Date().toISOString()
+        });
+        
+        userRole = 'teacher';
+        showTeacherDashboard();
+    } else {
+        alert('Login gagal. Periksa email dan password Anda.');
     }
 }
 
-function addChatMessage(message, sender) {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}-message`;
-    messageDiv.textContent = message;
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function generateAIResponse(message) {
-    const contextKeywords = {
-        'proses bisnis': 'Berdasarkan materi hari 1, proses bisnis adalah serangkaian aktivitas terstruktur untuk mencapai tujuan bisnis...',
-        'jaringan': 'Dalam konteks TJKT, jaringan komputer berperan dalam mendukung seluruh proses bisnis...',
-        'guru': 'Sebagai guru, Anda dapat memantau progress siswa melalui dashboard monitoring...',
-        'developer': 'Developer memiliki akses ke sistem metrics dan analytics untuk monitoring performa...',
-        'quiz': 'Untuk persiapan quiz, fokuslah pada konsep-konsep utama yang telah dipelajari...',
-        'problem': 'Dalam problem solving, mulailah dengan analisis kebutuhan dan buat solusi bertahap...'
-    };
+// Developer Login Handler
+function handleDeveloperLogin(e) {
+    e.preventDefault();
+    const form = e.target;
+    const username = form.querySelector('#devUsername').value;
+    const password = form.querySelector('#devPassword').value;
     
-    for (let keyword in contextKeywords) {
-        if (message.toLowerCase().includes(keyword)) {
-            return contextKeywords[keyword];
-        }
+    if (developerAccounts[username] && developerAccounts[username].password === password) {
+        currentUser = {
+            id: 'dev_' + username,
+            name: developerAccounts[username].name,
+            email: username + '@dev.com',
+            picture: 'https://via.placeholder.com/150/667eea/ffffff?text=D',
+            role: 'developer'
+        };
+        
+        // Save user session
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Save user data
+        saveUserData(currentUser.email, {
+            ...currentUser,
+            profileCompleted: true,
+            registeredAt: new Date().toISOString()
+        });
+        
+        userRole = 'developer';
+        showDeveloperDashboard();
+    } else {
+        alert('Login gagal. Periksa username dan password Anda.');
     }
-    
-    const generalResponses = [
-        "Itu pertanyaan yang bagus! Mari kita bahas bersama...",
-        "Berdasarkan materi yang sedang Anda pelajari...",
-        "Saya bisa membantu Anda memahami konsep ini. Pertama...",
-        "Untuk menjawab pertanyaan Anda, perlu diketahui bahwa...",
-        "Dalam konteks TJKT, hal tersebut berkaitan dengan..."
-    ];
-    
-    return generalResponses[Math.floor(Math.random() * generalResponses.length)];
 }
 
-// Initialize demo accounts on first load
-createDemoAccounts();
+// Teacher Dashboard Functions
+function showTeacherDashboard() {
+    showPage('teacherDashboard');
+    showTeacherSection('overview');
+}
 
-// Navigation System - PERBAIKAN
-function showSection(sectionId) {
-    console.log('Showing section:', sectionId); // Debug
-    
+function showTeacherSection(sectionId) {
     // Hide all sections
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
@@ -1079,43 +244,186 @@ function showSection(sectionId) {
     });
     
     // Show target section
-    const targetSection = document.getElementById(sectionId + 'Section');
-    if (targetSection) {
-        targetSection.classList.add('active');
-    } else {
-        console.error('Section not found:', sectionId + 'Section');
-        return;
-    }
+    document.getElementById('teacher' + capitalizeFirst(sectionId) + 'Section').classList.add('active');
     
     // Activate corresponding nav button
-    const navButton = document.querySelector(`.nav-btn[onclick="showSection('${sectionId}')"]`);
-    if (navButton) {
-        navButton.classList.add('active');
-    }
+    document.querySelector(`.nav-btn[onclick="showTeacherSection('${sectionId}')"]`).classList.add('active');
     
     // Load section-specific content
     switch(sectionId) {
-        case 'home':
-            loadHomeSection();
+        case 'overview':
+            loadTeacherOverview();
+            break;
+        case 'students':
+            loadTeacherStudents();
             break;
         case 'materials':
-            loadMaterialsSection();
+            loadTeacherMaterials();
             break;
-        case 'leaderboard':
-            loadLeaderboardSection();
+        case 'reports':
+            loadTeacherReports();
             break;
-        case 'profile':
-            loadProfileSection();
-            break;
-        default:
-            console.log('Unknown section:', sectionId);
     }
 }
 
-// Developer Navigation - PERBAIKAN
-function showDevSection(sectionId) {
-    console.log('Showing dev section:', sectionId);
+function loadTeacherOverview() {
+    document.getElementById('teacherName').textContent = currentUser.name;
     
+    // Load teacher stats
+    const stats = getTeacherStats();
+    document.getElementById('totalStudents').textContent = stats.totalStudents;
+    document.getElementById('activeStudents').textContent = stats.activeStudents;
+    document.getElementById('avgScore').textContent = stats.avgScore + '%';
+    document.getElementById('todayActivity').textContent = stats.todayActivity;
+    
+    // Load class progress
+    loadClassProgress();
+    
+    // Load recent activities
+    loadRecentActivities();
+}
+
+function getTeacherStats() {
+    // In real app, this would fetch from database
+    return {
+        totalStudents: 125,
+        activeStudents: 89,
+        avgScore: 76,
+        todayActivity: 34
+    };
+}
+
+function loadClassProgress() {
+    const classes = ['X TJKT 1', 'X TJKT 2', 'X TJKT 3', 'XI TJKT 1', 'XI TJKT 2', 'XII TJKT 1', 'XII TJKT 2'];
+    const progressHTML = classes.map(className => `
+        <div class="class-progress-item">
+            <span class="class-name">${className}</span>
+            <div class="class-stats">
+                <span>24 Siswa</span>
+                <span>72% Progress</span>
+                <span>78% Nilai</span>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('classProgress').innerHTML = progressHTML;
+}
+
+function loadRecentActivities() {
+    const activities = [
+        'Ahmad menyelesaikan materi hari 1 dengan nilai 85%',
+        'Siti mengumpulkan problem solving challenge',
+        'Budi aktif selama 5 hari berturut-turut',
+        'Kelas X TJKT 1 mencapai progress 80%',
+        'Rata-rata nilai quiz meningkat 5%'
+    ];
+    
+    const activitiesHTML = activities.map(activity => `
+        <div class="activity-item">
+            <div class="activity-icon">📚</div>
+            <div class="activity-text">${activity}</div>
+            <div class="activity-time">2 jam lalu</div>
+        </div>
+    `).join('');
+    
+    document.getElementById('teacherActivityFeed').innerHTML = activitiesHTML;
+}
+
+function loadTeacherStudents() {
+    // Sample students data
+    const students = [
+        { name: 'Ahmad Wijaya', class: 'X TJKT 1', progress: 85, lastActive: '2 jam lalu' },
+        { name: 'Siti Nurhaliza', class: 'X TJKT 1', progress: 92, lastActive: '1 jam lalu' },
+        { name: 'Budi Santoso', class: 'X TJKT 2', progress: 78, lastActive: '5 jam lalu' },
+        { name: 'Citra Dewi', class: 'X TJKT 2', progress: 88, lastActive: '3 jam lalu' },
+        { name: 'Dodi Pratama', class: 'X TJKT 3', progress: 81, lastActive: '6 jam lalu' }
+    ];
+    
+    const studentsHTML = students.map(student => `
+        <div class="student-management-item">
+            <div class="student-management-info">
+                <img src="https://via.placeholder.com/40/667eea/ffffff?text=${student.name.charAt(0)}" alt="${student.name}">
+                <div>
+                    <div class="student-name">${student.name}</div>
+                    <div class="student-details">${student.class} • ${student.progress}% Progress • Aktif: ${student.lastActive}</div>
+                </div>
+            </div>
+            <div class="student-management-actions">
+                <button class="management-btn edit">Edit</button>
+                <button class="management-btn delete">Hapus</button>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('studentsManagement').innerHTML = studentsHTML;
+}
+
+function loadTeacherMaterials() {
+    const materialsHTML = `
+        <div class="materials-management">
+            <div class="content-card">
+                <h3>📚 Materi yang Tersedia</h3>
+                <div class="materials-list">
+                    ${Object.entries(tjktMaterials).map(([day, material]) => `
+                        <div class="material-item">
+                            <h4>Hari ${day.replace('day', '')}: ${material.title}</h4>
+                            <p>${material.quiz.length} Soal • ${material.challenges.length} Challenge</p>
+                            <div class="material-actions">
+                                <button class="elegant-btn secondary" onclick="editMaterial('${day}')">Edit</button>
+                                <button class="elegant-btn secondary" onclick="previewMaterial('${day}')">Preview</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <h3>➕ Tambah Materi Baru</h3>
+                <button class="elegant-btn">Buat Materi Baru</button>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('materialsManagement').innerHTML = materialsHTML;
+}
+
+function loadTeacherReports() {
+    const reportsHTML = `
+        <div class="reports-management">
+            <div class="content-card">
+                <h3>📊 Laporan Progress</h3>
+                <div class="reports-grid">
+                    <div class="report-item">
+                        <h4>Progress per Kelas</h4>
+                        <button class="elegant-btn secondary">Generate Report</button>
+                    </div>
+                    <div class="report-item">
+                        <h4>Nilai Quiz</h4>
+                        <button class="elegant-btn secondary">Generate Report</button>
+                    </div>
+                    <div class="report-item">
+                        <h4>Aktivitas Siswa</h4>
+                        <button class="elegant-btn secondary">Generate Report</button>
+                    </div>
+                    <div class="report-item">
+                        <h4>Problem Solving</h4>
+                        <button class="elegant-btn secondary">Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('reportsManagement').innerHTML = reportsHTML;
+}
+
+// Developer Dashboard Functions
+function showDeveloperDashboard() {
+    showPage('developerDashboard');
+    showDeveloperSection('dashboard');
+}
+
+function showDeveloperSection(sectionId) {
     // Hide all sections
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
@@ -1127,35 +435,404 @@ function showDevSection(sectionId) {
     });
     
     // Show target section
-    const targetSection = document.getElementById('dev' + capitalizeFirst(sectionId) + 'Section');
-    if (targetSection) {
-        targetSection.classList.add('active');
-    } else {
-        console.error('Dev section not found:', 'dev' + capitalizeFirst(sectionId) + 'Section');
-        return;
-    }
+    document.getElementById('developer' + capitalizeFirst(sectionId) + 'Section').classList.add('active');
     
     // Activate corresponding nav button
-    const navButton = document.querySelector(`.nav-btn[onclick="showDevSection('${sectionId}')"]`);
-    if (navButton) {
-        navButton.classList.add('active');
-    }
+    document.querySelector(`.nav-btn[onclick="showDeveloperSection('${sectionId}')"]`).classList.add('active');
     
     // Load section-specific content
     switch(sectionId) {
-        case 'metrics':
-            loadMetricsSection();
+        case 'dashboard':
+            loadDeveloperDashboard();
             break;
         case 'users':
-            loadUsersSection();
+            loadDeveloperUsers();
             break;
-        case 'ai':
-            loadAISection();
+        case 'system':
+            loadDeveloperSystem();
             break;
-        case 'database':
-            loadDatabaseSection();
+        case 'analytics':
+            loadDeveloperAnalytics();
             break;
-        default:
-            console.log('Unknown dev section:', sectionId);
     }
 }
+
+function loadDeveloperDashboard() {
+    document.getElementById('developerName').textContent = currentUser.name;
+    
+    // Load system stats
+    const stats = getSystemStats();
+    document.getElementById('totalUsers').textContent = stats.totalUsers;
+    document.getElementById('activeSessions').textContent = stats.activeSessions;
+    document.getElementById('storageUsed').textContent = stats.storageUsed;
+    document.getElementById('systemLoad').textContent = stats.systemLoad + '%';
+    
+    // Load real-time metrics
+    loadRealTimeMetrics();
+}
+
+function getSystemStats() {
+    // In real app, this would fetch from server
+    return {
+        totalUsers: 156,
+        activeSessions: 23,
+        storageUsed: '245MB',
+        systemLoad: 32
+    };
+}
+
+function loadRealTimeMetrics() {
+    const metrics = [
+        { name: 'CPU Usage', value: 45, max: 100 },
+        { name: 'Memory Usage', value: 68, max: 100 },
+        { name: 'Disk I/O', value: 23, max: 100 },
+        { name: 'Network Traffic', value: 56, max: 100 },
+        { name: 'Database Connections', value: 12, max: 50 }
+    ];
+    
+    const metricsHTML = metrics.map(metric => `
+        <div class="metric-item">
+            <div class="metric-header">
+                <span class="metric-name">${metric.name}</span>
+                <span class="metric-value">${metric.value}%</span>
+            </div>
+            <div class="metric-bar">
+                <div class="metric-fill" style="width: ${metric.value}%"></div>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('realTimeMetrics').innerHTML = metricsHTML;
+}
+
+function loadDeveloperUsers() {
+    const users = [
+        { name: 'Ahmad Wijaya', email: 'ahmad@student.com', role: 'Student', status: 'Active', lastLogin: '2 jam lalu' },
+        { name: 'Guru TJKT', email: 'guru@tjkt.sch.id', role: 'Teacher', status: 'Active', lastLogin: '1 jam lalu' },
+        { name: 'Fatkul Developer', email: 'fatkul.dev@dev.com', role: 'Developer', status: 'Active', lastLogin: '30 menit lalu' },
+        { name: 'Siti Nurhaliza', email: 'siti@student.com', role: 'Student', status: 'Inactive', lastLogin: '2 hari lalu' }
+    ];
+    
+    const usersHTML = users.map(user => `
+        <div class="student-management-item">
+            <div class="student-management-info">
+                <img src="https://via.placeholder.com/40/667eea/ffffff?text=${user.name.charAt(0)}" alt="${user.name}">
+                <div>
+                    <div class="student-name">${user.name}</div>
+                    <div class="student-details">${user.email} • ${user.role} • ${user.status} • Login: ${user.lastLogin}</div>
+                </div>
+            </div>
+            <div class="student-management-actions">
+                <button class="management-btn edit">Edit</button>
+                <button class="management-btn delete">Reset</button>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('usersManagement').innerHTML = usersHTML;
+}
+
+function loadDeveloperSystem() {
+    const systemConfigHTML = `
+        <div class="system-config">
+            <div class="config-item">
+                <label class="config-label">System Name</label>
+                <input type="text" class="config-input" value="E-Learning TJKT Platform" readonly>
+                <div class="config-description">Nama sistem yang ditampilkan ke pengguna</div>
+            </div>
+            
+            <div class="config-item">
+                <label class="config-label">Maintenance Mode</label>
+                <select class="config-input">
+                    <option value="false">Disabled</option>
+                    <option value="true">Enabled</option>
+                </select>
+                <div class="config-description">Aktifkan mode maintenance untuk update sistem</div>
+            </div>
+            
+            <div class="config-item">
+                <label class="config-label">Auto Backup</label>
+                <select class="config-input">
+                    <option value="daily">Daily</option>
+                    <option value="weekly" selected>Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+                <div class="config-description">Frekuensi backup otomatis database</div>
+            </div>
+            
+            <div class="config-item">
+                <label class="config-label">Session Timeout</label>
+                <input type="number" class="config-input" value="60" min="15" max="240">
+                <div class="config-description">Waktu timeout session dalam menit</div>
+            </div>
+            
+            <button class="elegant-btn" onclick="saveSystemConfig()">Save Configuration</button>
+        </div>
+    `;
+    
+    document.getElementById('systemConfig').innerHTML = systemConfigHTML;
+}
+
+function loadDeveloperAnalytics() {
+    const analyticsHTML = `
+        <div class="analytics-dashboard">
+            <div class="analytics-chart">
+                <h3>📈 User Activity Trends</h3>
+                <div class="chart-placeholder" style="height: 250px; background: rgba(255,255,255,0.5); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #666;">
+                    Chart: User Activity Over Time
+                </div>
+            </div>
+            
+            <div class="analytics-sidebar">
+                <div class="content-card">
+                    <h3>Top Performers</h3>
+                    <div class="top-performers">
+                        <div class="performer-item">
+                            <span>Ahmad Wijaya</span>
+                            <span>950 pts</span>
+                        </div>
+                        <div class="performer-item">
+                            <span>Siti Nurhaliza</span>
+                            <span>920 pts</span>
+                        </div>
+                        <div class="performer-item">
+                            <span>Citra Dewi</span>
+                            <span>890 pts</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <h3>System Health</h3>
+                    <div class="health-metrics">
+                        <div class="health-item good">
+                            <span>API Response</span>
+                            <span>98%</span>
+                        </div>
+                        <div class="health-item good">
+                            <span>Database</span>
+                            <span>99.9%</span>
+                        </div>
+                        <div class="health-item warning">
+                            <span>Cache</span>
+                            <span>85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('analyticsDashboard').innerHTML = analyticsHTML;
+}
+
+// Enhanced loadProfileSection function
+function loadProfileSection() {
+    if (currentUser) {
+        const userData = getUserData(currentUser.email);
+        const progress = getStudentProgress(currentUser.email);
+        
+        document.getElementById('profileFullName').textContent = currentUser.name;
+        document.getElementById('profileFullAvatar').src = currentUser.picture;
+        document.getElementById('profileFullClass').textContent = getClassDisplayName(currentUser.class);
+        document.getElementById('profileFullProfession').textContent = getProfessionDisplayName(userData.profession);
+        document.getElementById('profileFullBio').textContent = userData.bio || 'Belum ada bio';
+        
+        document.getElementById('profileTotalScore').textContent = progress.totalScore || 0;
+        document.getElementById('profileDaysActive').textContent = progress.daysActive || 0;
+        document.getElementById('profileProblemsSolved').textContent = progress.problemsSolved || 0;
+        document.getElementById('profileRank').textContent = '#' + (progress.rank || '-');
+        
+        // Load interests
+        const interestsHTML = (userData.interests || []).map(interest => 
+            `<span class="interest-tag">${getInterestDisplayName(interest)}</span>`
+        ).join('');
+        document.getElementById('profileInterestsTags').innerHTML = interestsHTML;
+        
+        // Load skills
+        const skillsHTML = (userData.skills || []).map(skill => 
+            `<span class="skill-tag">${getSkillDisplayName(skill)}</span>`
+        ).join('');
+        document.getElementById('profileSkillsTags').innerHTML = skillsHTML;
+        
+        // Load achievements
+        loadAchievements(progress);
+    }
+}
+
+// Enhanced showProfileEditor function
+function showProfileEditor() {
+    const userData = getUserData(currentUser.email);
+    const modal = document.getElementById('profileEditor');
+    
+    document.getElementById('profileEditPreview').src = currentUser.picture;
+    document.getElementById('profileEditBio').value = userData.bio || '';
+    document.getElementById('profileEditProfession').value = userData.profession || '';
+    
+    // Set interests
+    const interestsSelect = document.getElementById('profileEditInterests');
+    Array.from(interestsSelect.options).forEach(option => {
+        option.selected = (userData.interests || []).includes(option.value);
+    });
+    
+    // Check skills checkboxes
+    document.querySelectorAll('input[name="edit_skills"]').forEach(checkbox => {
+        checkbox.checked = (userData.skills || []).includes(checkbox.value);
+    });
+    
+    modal.style.display = 'block';
+}
+
+// Enhanced handleProfileEdit function
+function handleProfileEdit(e) {
+    e.preventDefault();
+    const bio = document.getElementById('profileEditBio').value;
+    const profession = document.getElementById('profileEditProfession').value;
+    const interestsSelect = document.getElementById('profileEditInterests');
+    const interests = Array.from(interestsSelect.selectedOptions).map(option => option.value);
+    const skills = Array.from(document.querySelectorAll('input[name="edit_skills"]:checked')).map(cb => cb.value);
+    
+    // Update user data
+    const userData = getUserData(currentUser.email);
+    userData.bio = bio;
+    userData.profession = profession;
+    userData.interests = interests;
+    userData.skills = skills;
+    
+    saveUserData(currentUser.email, userData);
+    
+    // Update current user
+    currentUser = { ...currentUser, ...userData };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    closeProfileEditor();
+    loadProfileSection();
+    alert('Profil berhasil diperbarui!');
+}
+
+// Enhanced loadMaterialsSection function
+function loadMaterialsSection() {
+    const day = getCurrentDay();
+    const material = tjktMaterials['day' + day];
+    
+    if (material) {
+        document.getElementById('materialDay').textContent = day;
+        document.getElementById('materialDate').textContent = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        document.getElementById('materialContent').innerHTML = `
+            <h3>${material.title}</h3>
+            ${material.content}
+        `;
+        
+        // Reset buttons
+        resetDailyButtons();
+        
+        // Check existing progress
+        checkExistingProgress(day);
+    } else {
+        document.getElementById('materialContent').innerHTML = `
+            <div class="no-material">
+                <h3>Materi Tidak Tersedia</h3>
+                <p>Materi untuk hari ini sedang dalam pengembangan. Silakan check kembali besok.</p>
+            </div>
+        `;
+    }
+}
+
+// Logout Function
+function logout() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+        // Clear current session
+        currentUser = null;
+        currentJurusan = null;
+        userRole = null;
+        userClass = null;
+        
+        // Clear localStorage session (keep user data)
+        localStorage.removeItem('currentUser');
+        
+        // Redirect to login page
+        showPage('loginPage');
+        
+        alert('Anda telah berhasil logout.');
+    }
+}
+
+// Utility Functions
+function capitalizeFirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function getInterestDisplayName(interest) {
+    const interests = {
+        'network_design': 'Desain Jaringan',
+        'network_security': 'Keamanan Jaringan',
+        'cloud_computing': 'Cloud Computing',
+        'iot': 'Internet of Things',
+        'cyber_security': 'Cyber Security',
+        'data_analysis': 'Analisis Data',
+        'web_development': 'Web Development',
+        'mobile_development': 'Mobile Development'
+    };
+    return interests[interest] || interest;
+}
+
+// Developer Quick Actions
+function backupSystem() {
+    alert('System backup started...');
+    // In real app, this would trigger backup process
+}
+
+function clearCache() {
+    if (confirm('Clear all system cache?')) {
+        alert('Cache cleared successfully');
+    }
+}
+
+function generateReport() {
+    alert('Generating system report...');
+}
+
+function systemDiagnostics() {
+    alert('Running system diagnostics...');
+}
+
+function saveSystemConfig() {
+    alert('System configuration saved!');
+}
+
+// Enhanced loadStudentData function
+function loadStudentData() {
+    if (currentUser) {
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('userAvatar').src = currentUser.picture;
+        document.getElementById('userJurusan').textContent = currentJurusan ? 'TJKT' : '';
+        document.getElementById('userClass').textContent = getClassDisplayName(currentUser.class);
+        document.getElementById('sidebarClassBadge').textContent = getClassDisplayName(currentUser.class);
+        
+        const progress = getStudentProgress(currentUser.email);
+        document.getElementById('materialsCompleted').textContent = progress.materialsCompleted;
+        document.getElementById('averageScore').textContent = progress.averageScore + '%';
+        document.getElementById('currentStreak').textContent = progress.currentStreak;
+        document.getElementById('userRank').textContent = '#' + (progress.rank || '-');
+        
+        // Update progress bar
+        const progressBar = document.getElementById('dailyProgress');
+        const day = getCurrentDay();
+        const dailyProgress = calculateDailyProgress(day);
+        progressBar.style.width = dailyProgress + '%';
+        
+        document.getElementById('currentDay').textContent = day;
+    }
+}
+
+// Initialize the system when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSystem();
+    setupEventListeners();
+});
